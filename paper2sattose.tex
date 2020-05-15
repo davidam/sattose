@@ -10,9 +10,7 @@
 \title{[Artifact Presentation] Damegender: \\ Writing and Comparing Gender Detection Tools}
 
 \author{
-David Arroyo Men\'endez, Jesus Gonzalez-Barahona \\ Grupo de Sistemas y Comunicaciones (GSyC) \\ Universidad Rey Juan Carlos, Madrid, Spain \\ \{d.arroyome@alumnos, jgb@gsyc\}.urjc.es
-%\and
-%Jesus Gonzalez-Barahona \\ GSyC \\ Universidad Rey Juan Carlos \\ jgb@gsyc.es
+David Arroyo Menendez, Jesus Gonzalez-Barahona \\ Grupo de Sistemas y Comunicaciones (GSyC) \\ Universidad Rey Juan Carlos, Madrid, Spain \\ \{d.arroyome@alumnos, jgb@gsyc\}.urjc.es
 }
 
 
@@ -36,10 +34,10 @@ In the software domain, and although other types of diversity exist, this is esp
 % Objective, 
 Given the large amount of publicly available data on the software development process that can be retrieved and analyzed from the Internet (e.g., GitHub, StackOverflow), the importance of having methods and tools that help with large amounts of data would be desirable.
 % Method
-In this paper we present a free software tool, called \texttt{namegender}, which we have conceived to given a name (and optionally some additional data such as geographic information) outputs the gender.
-\texttt{damegender} is based on open databases from official census and uses Machine Learning to guess diminutives or nicknames.
+In this paper we present a free software tool, called \texttt{damegender}, which we have conceived to given a name outputs the gender and a probability.
+\texttt{damegender} is based on open databases from official census and uses Machine Learning to guess strings not classified as names, such as diminutives or nicknames.
 % Results 
-We have compared \texttt{damegender} with other existing gender guesser APIs, obtaining good results.
+We have compared \texttt{damegender} with other tools, obtaining good results.
 % Conclusions.
 
 \end{abstract}
@@ -47,10 +45,11 @@ We have compared \texttt{damegender} with other existing gender guesser APIs, ob
 
 \section{Introduction}
 
-In recent times, many research investigations have been made on gender
-diversity in the IT domain.
+In recent times, many research investigations have been made on gender diversity in the IT domain.
+
 Examples of these efforts range from participation in Twitter~\cite{burger2011discriminating,mislove2011understanding},
 in Wikipedia ~\cite{antin2011gender,hill2013wikipedia}, in science~\cite{holman2018gender,dollar1999gender}, and more specifically in the software domain in StackOverflow~\cite{vasilescu2012gender}, GitHub~\cite{vasilescu2015gender} and in Free/Libre/Open Source Software development~\cite{robles2014floss}.
+
 The interest on gender diversity is become more and more relevant, and so does the identification methods that allow to perform comprehensive studies on gender representation in different domains, given the large amounts of data available, in particular from collaborative environments.
 
 There are different ways to detect gender from a person name and perhaps a surname.
@@ -65,33 +64,43 @@ Therefore, (i) we evaluate the quality and price of different commercial solutio
 
 As a result, we contribute with: 
 (i) an evaluation of the quality of different solutions applying well-known metrics;
-(ii) a tool, called \texttt{damegender}, guessing gender from a name giving support to Spanish and
-  English from the open data census provides by the states built to understand 
-  current technologies in detail;
-(iii) a machine learning solution to strings not found in the
-  census dataset to approach the problem with nicknames and diminutives; and 
+
+(ii) a tool, called \texttt{damegender}, guessing gender from a name
+  giving support to Spanish and English from the open data census
+  provides by the states built to understand current technologies in
+  detail; this tools has been compared with APIs using an international
+  dataset with good results.
+  
+(iii) a machine learning solution to strings not found in the census
+  dataset to approach the problem with nicknames and diminutives; and
+  
 (iv) a proof-of-concept of \texttt{damegender} to detect
   gender in mailing lists and software repositories.
 
+A summary of current features of \texttt{damegender} are:
 
-%A summary of current features of \texttt{damegender} are:
-%
-%\begin{itemize}
-%  \item To deduce the gender about a name in Spanish or English (current status) from open census in local.
-%  \item To decide about males and females in strings using different machine learning algorithms.
-%  \item To use the main solutions in gender detection (genderize, genderapi, namsor, nameapi and gender guesser) from a command.
-%  \item To research about why a name is related to males or females with   statistics. We provide Python commands about study and compare gender solutions with: confusion matrix, accuracies, error measures. And to decide about features: statistical feature weight, principal component analysis, ...
-%  \item To determine gender gap in free software repositories or mailing lists (proof of concept)
-%\end{itemize}
+\begin{itemize}
+ \item To deduce the gender about a name in Spanish or English (current status) from open census in local.
+ \item To decide about males and females in strings using different machine learning algorithms.
+ \item To use the main solutions in gender detection (genderize, genderapi, namsor, nameapi and gender guesser) from a command.
+ \item To research about why a name is related to males or females with statistics. We provide Python commands about study and compare gender solutions with: confusion matrix, accuracies, error measures. And to decide about features: statistical feature weight, principal component analysis, ...
+ \item To determine gender gap in free software repositories or mailing lists (proof of concept).
+\end{itemize}
 
+The remainder of this paper is structured as follows:
 
-\grex{The remainder of this paper is structured as follows...}
-
+In Section 2, we explain Damegender as solution to the problem,
+explaining that we are using Open Datasets extracted from the states
+as base of truth. Section 3, presents a feature comparison with other
+tools.  Section 4, reproduces accuracies and confusion matrix with a
+scientific dataset. The section 5 is about how we are using Machine
+Learning in Damegender. The section 6 is about conclusion, limitations
+and futher research.
 
 \section{Damegender}
 
-\texttt{damegender}\footnote{https://github.com/davidam/damegender} is a gender detection tool under a free software license (in particular, the GNU General Public License v3.0). 
-It has been implemented in Python to take advantage of many other free software tools used in the scientific domain, such as the Natural Language Toolkit (NLT) for Natural Language Processing~\cite{loper2002nltk}, Scikit for Machine Learning~\cite{pedregosa2011scikit}, Numpy for Numerical Computation~\cite{van2011numpy}, and Matplotlib to visualize results~\cite{hunter2007matplotlib}. 
+\texttt{damegender}\footnote{https://github.com/davidam/damegender} is a gender detection tool under a Free Software license (in particular, the GNU General Public License v3.0). 
+It has been implemented in Python to take advantage of many other free software tools used in the scientific domain, such as the Natural Language Toolkit (NLTK) for Natural Language Processing~\cite{loper2002nltk}, Scikit for Machine Learning~\cite{pedregosa2011scikit}, Numpy for Numerical Computation~\cite{van2011numpy}, and Matplotlib to visualize results~\cite{hunter2007matplotlib}. 
 At its current point it is linked to Perceval~\cite{duenas2018perceval}, a tool specialized in retrieving and gathering data from software repositories, such as git and mailing lists.
 
 The software is using an oriented to objects design with unit testing for classes and methods using nose and unit testing for Python commands using Bash. 
