@@ -56,7 +56,7 @@ The interest on gender diversity is become more and more relevant, and so does t
 There are different ways to detect gender from a person name and perhaps a surname.
 A first, more rudimentary, is based on data extracted from the census, Wikipedia, self-references in trust websites, searches in Google Images, among others.
 So, for instance, in some studies, for example, about Twitter or GitHub, some people have used not only names to detect gender. 
-Thus, we can find gender detection tools that infer the gender from faces in images~\cite{ranjan2017hyperface}, from hand -written annotations~\cite{liwicki2011automatic}, or from speeches~\cite{koppel2002automatically}.
+Thus, we can find gender detection tools that infer the gender from faces in images~\cite{ranjan2017hyperface}, from hand-written annotations~\cite{liwicki2011automatic}, or from speeches~\cite{koppel2002automatically}.
 
 Another way to do it is by using one of the existing Application Programming Interfaces (APIs).
 This paper is about the latter, about their possibilities and limitations.
@@ -95,10 +95,10 @@ The remainder of this paper is structured as follows:
 
 In Section 2 we explain \texttt{damegender} as solution to the
 problem of gender guessing. Section 3 introduces the Open Datasets used as the \emph{golden truth}.
-Section 4 presents a feature comparison with other gender guession tools and services.
+Section 4 presents a feature comparison with other gender guessing tools and services.
 Section 5 reports on values of accuracy and offers a confusion matrix using a scientific dataset.
 Section 6 is about how we use Machine Learning in \texttt{damegender}.
-Section 7 discusses limitations and futher research, and concludes the paper.
+Section 7 discusses limitations and further research, and concludes the paper.
 
 \section{Damegender}
 
@@ -138,7 +138,7 @@ Surnames & Yes & No & No & Yes & Yes & Yes\tabularnewline
 Non-Latin alphabets & Partial & No & Partial & Yes & Yes & No\tabularnewline
 Implicit geo-localization & Yes & No & No & Yes & Yes & No\tabularnewline
 Exists locale & Yes & Yes & Yes & Yes & Yes & Yes\tabularnewline
-Assingment type & P & B & P & P & P & P \tabularnewline
+Assignment type & P & B & P & P & P & P \tabularnewline
 Free parameters & T,P & G & P,C & T & S & T,C\tabularnewline
 Prediction & No & No & No & No & No & Yes\tabularnewline
 Free license & No & Yes & No & No & No & Yes\tabularnewline
@@ -180,7 +180,7 @@ The third approach is based on the trust on commercial solutions, in the same wa
 This is because commercial APIs can be seen just a black box, so we do not know where the data comes from and how it has been treated.
 As at this point, commercial APIs offer better results as other solutions, \texttt{damegender} gives the possibility to include data from them.
 Thus, it is possible to download JSON files from the main commercial gender guesser API solutions (e.g., \texttt{genderapi}, \texttt{genderize}, \texttt{namsor}, \texttt{nameapi}) and use it as the dataset.
-There are certain uses that are currenly only available in such tools.
+There are certain uses that are currently only available in such tools.
 
 % One user can build proprietary datasets on this way using an average weighted by the precision or accuracy of each Application Programming Interface measured with \texttt{damegender} with an open dataset as base of truth.
 
@@ -203,26 +203,6 @@ Results can be found in Table~\ref{table:comparison}.
 
 \section{Reproducing values of accuracy and confusion matrix}
 
-There are different ways to express the probability of a successful identification (e.g., confidence, scale, accuracy, precision, recall).
-We se the confusion matrix to understand where the different tools suceed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
-
-Santamaria and Mihaljevic~\cite{10.7717/peerj-cs.156} explain different ways to determine gender from a name by humans and offer 7,000 names applying these methods. 
-In their dataset, gender is classified as male, female or unknown. 
-We have used this dataset, not considering the unknow variable, for our experiments.
-The results, using common information retrieval metrics, can be seen in Table~\ref{table:DifferentAccuraciesMeasures}.
-Accuracy is the ratio of correctly predicted observation to the total observations.
-It should be noted that \emph{Accuracy} can be a misleading metric for imbalanced data sets, such as the ones that we usually have in software development projects.
-So, for a sample with 85 negative and 15 positive values, classifying all values as negative in this case gives a score of accuracy of 0.85.
-In those cases, it is better to report other measures, such as the balanced accuracy (bACC), which normalizes true positive and true negative predictions by the number of positive and negative samples~\cite{mower2005prep}.
-Precision is the fraction of relevant instances among the retrieved instances.
-Recall is the fraction of the total amount of relevant instances that were actually retrieved.
-In our case, we have left no name out, so recall is 1 for all tools.
-Precision and recall are sometimes used together in the F1 Score (or f-measure) to provide a single measurement for a system.
-As can be observed, Genderapi and Genderize obtain the best results -- although all solutions are close and reach results better than 0.8 for accuracy, except for \texttt{Gender Guesser}.
-
-%\grex{Deberiamos explicar que es cada una de las metricas. Y tambien por que tenemos 1.0 de recall en todos los casos.}
-%\davidam{Esto es un poco largo de explicar. Está explicado de una manera abreviada más arriba. Si te ves con energías para explicarlo, está explicado en https://easychair.org/publications/preprint/vthL}
-
 %\begin{table*}[]{@{}lllllll@{}}
 \begin{table}[t]
 \footnotesize
@@ -242,15 +222,27 @@ Gender Guesser & 0.774 & 0.985 & 0.872 & 1.0\tabularnewline
 \label{table:DifferentAccuraciesMeasures}
 \end{table}
 
-We have performed a comparison using a confusion matrix for the software/tools (see Table~\ref{table:ConfusionMatrixTables}).
-Compared to the results obtained in~\cite{10.7717/peerj-cs.156}, we can see that they are very similar.
-The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) are improving the values of accuracy with respect the previous comparison.
-In particular, \texttt{Genderapi} has similar results, but it improves the results for \emph{undefined}.
-In \texttt{Genderguesser} we obtain different results, which is to some extent not expected, because the software has not modified for several years.
-For \texttt{Genderize}, we obtain the same results. 
-\texttt{Nameapi}'s results is changing from male to female with more errors. 
-In \texttt{Namsor}, the results are similar. 
-\texttt{damegender} is not guessing undefined because we predict with machine learning (SVC) if the string is not in the database.
+There are different ways to express the probability of a successful identification (e.g., confidence, scale, accuracy, precision, recall).
+We can see in  the confusion matrix to understand where the different tools succeed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
+
+Santamaria and Mihaljevic~\cite{10.7717/peerj-cs.156} explain different ways to determine gender from a name by humans and offer 7,000 names applying these methods. 
+In their dataset, gender is classified as male, female or unknown. 
+We have used this dataset, not considering the unknown variable, for our experiments.
+The results, using common information retrieval metrics, can be seen in Table~\ref{table:DifferentAccuraciesMeasures}.
+Accuracy is the ratio of correctly predicted observation to the total observations.
+It should be noted that \emph{Accuracy} can be a misleading metric for imbalanced data sets, such as the ones that we usually have in software development projects.
+So, for a sample with 85 negative and 15 positive values, classifying all values as negative in this case gives a score of accuracy of 0.85.
+In those cases, it is better to report other measures, such as the balanced accuracy (bACC), which normalizes true positive and true negative predictions by the number of positive and negative samples~\cite{mower2005prep}.
+Precision is the fraction of relevant instances among the retrieved instances.
+Recall is the fraction of the total amount of relevant instances that were actually retrieved.
+In our case, we have left no name out, so recall is 1 for all tools.
+Precision and recall are sometimes used together in the F1 Score (or f-measure) to provide a single measurement for a system.
+As can be observed, Genderapi and Genderize obtain the best results -- although all solutions are close and reach results better than 0.8 for accuracy, except for \texttt{Gender Guesser}.
+
+%\grex{Deberiamos explicar que es cada una de las metricas. Y tambien por que tenemos 1.0 de recall en todos los casos.}
+%\davidam{Esto es un poco largo de explicar. Está explicado de una manera abreviada más arriba. Si te ves con energías para explicarlo, está explicado en https://easychair.org/publications/preprint/vthL}
+
+
 
 \begin{table}[t]
 \footnotesize
@@ -278,13 +270,15 @@ Nameapi           & male    & 2627 & 674  & 507 \tabularnewline
 \end{table}
 
 
-In Table~\ref{table:ApisAndErrors} we observe the different measures for errors in the APIs.
-Error coded defines if the true is different than the guessed one. 
-Error coded without na defines if the true is different than the guessed one, but without undefined results.
-Error gender bias allows to understand if the error is bigger for guessing males than females or viceversa.
-The weighted error defines if the true value is different than the guessed one, but giving a weight to the guessed as undefined.
-The most relevant information is a high index of errors for \texttt{Nameapi} and \texttt{Namsor},
-while \texttt{GenderApi} and \texttt{damegender} have a low index of errors.
+We have performed a comparison using a confusion matrix for the software/tools (see Table~\ref{table:ConfusionMatrixTables}).
+Compared to the results obtained in~\cite{10.7717/peerj-cs.156}, we can see that they are very similar.
+The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) are improving the values of accuracy with respect the previous comparison.
+In particular, \texttt{Genderapi} has similar results, but it improves the results for \emph{undefined}.
+In \texttt{Genderguesser} we obtain different results, which is to some extent not expected, because the software has not modified for several years.
+For \texttt{Genderize}, we obtain the same results. 
+\texttt{Nameapi}'s results is changing from male to female with more errors. 
+In \texttt{Namsor}, the results are similar. 
+\texttt{damegender} is not guessing undefined because we predict with machine learning (SVC) if the string is not in the database.
 
 \begin{table*}
 \footnotesize
@@ -303,8 +297,19 @@ Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 \hline
 \end{tabular}
 \caption{APIs and Errors}
+\vspace{0.3cm}
 \label{table:ApisAndErrors}
 \end{table*}
+
+
+In Table~\ref{table:ApisAndErrors} we observe the different measures for errors in the APIs.
+Error coded defines if the true is different than the guessed one. 
+Error coded without na defines if the true is different than the guessed one, but without undefined results.
+Error gender bias allows to understand if the error is bigger for guessing males than females or viceversa.
+The weighted error defines if the true value is different than the guessed one, but giving a weight to the guessed as undefined.
+The most relevant information is a high index of errors for \texttt{Nameapi} and \texttt{Namsor},
+while \texttt{GenderApi} and \texttt{damegender} have a low index of errors.
+
 
 
 \section{Machine Learning}
@@ -355,29 +360,32 @@ The most relevant results for the different datasets used are offered in Table~\
 Dataset & contains a & last is a & last is o & last is consonant & last is vocal & 1st is consonant & 1st is vocal  \tabularnewline
   \hline
   %\endhead
- Uruguay (F) \footnote{F is for females and M is for males} &    0.816 &         0.456 &         0.007 &                 0.287 &             0.712 &                  0.823 &              0.177  \tabularnewline
- Uruguay (M) \footnotemark[3] &    0.643 &         0.249 &         0.062 &                 0.766 &             0.234 &                  0.771 &              0.228  \tabularnewline
- Spain (F) \footnotemark[3]  &    0.922 &         0.588 &          0.03 &                 0.271 &             0.728 &                  0.772 &              0.228  \tabularnewline
- Spain (M) \footnotemark[3]  &    0.818 &          0.03 &         0.268 &                 0.569 &              0.43 &                  0.763 &              0.236  \tabularnewline
- UK (F) \footnotemark[3]     &    0.825 &         0.374 &         0.013 &                 0.322 &             0.674 &                  0.765 &              0.235  \tabularnewline
- UK (M) \footnotemark[3]     &    0.716 &         0.036 &         0.039 &                  0.78 &             0.218 &                  0.799 &                0.2  \tabularnewline
- USA (F) \footnotemark[3]    &    0.816 &         0.456 &         0.007 &                 0.287 &             0.712 &                  0.823 &              0.177  \tabularnewline
- USA (M) \footnotemark[3]    &    0.643 &          0.02 &         0.061 &                 0.765 &             0.234 &                   0.84 &              0.159  \tabularnewline
- Canada (F) \footnotemark[3] &    0.659 &         0.189 &         0.005 &                 0.591 &             0.408 &                  0.838 &              0.16  \tabularnewline
- Canada (M) \footnotemark[3] &    0.752 &          0.22 &         0.025 &                  0.54 &             0.456 &                  0.818 &              0.181  \tabularnewline
+ Uruguay (F) &    0.816 &         0.456 &         0.007 &                 0.287 &             0.712 &                  0.823 &              0.177  \tabularnewline
+ Uruguay (M) &    0.643 &         0.249 &         0.062 &                 0.766 &             0.234 &                  0.771 &              0.228  \tabularnewline
+ Spain (F)   &    0.922 &         0.588 &          0.030 &                 0.271 &             0.728 &                  0.772 &              0.228  \tabularnewline
+ Spain (M)   &    0.818 &          0.030 &         0.268 &                 0.569 &              0.430 &                  0.763 &              0.236  \tabularnewline
+ UK (F)      &    0.825 &         0.374 &         0.013 &                 0.322 &             0.674 &                  0.765 &              0.235  \tabularnewline
+ UK (M)      &    0.716 &         0.036 &         0.039 &                  0.780 &             0.218 &                  0.799 &                0.200  \tabularnewline
+ USA (F)     &    0.816 &         0.456 &         0.007 &                 0.287 &             0.712 &                  0.823 &              0.177  \tabularnewline
+ USA (M)     &    0.643 &          0.020 &         0.061 &                 0.765 &             0.234 &                   0.840 &              0.159  \tabularnewline
+ Canada (F)  &    0.659 &         0.189 &         0.005 &                 0.591 &             0.408 &                  0.838 &              0.160  \tabularnewline
+ Canada (M)  &    0.752 &          0.220 &         0.025 &                  0.540 &             0.456 &                  0.818 &              0.181  \tabularnewline
+Australia (F)      &    0.922 &         0.588 &         0.033 &                 0.272 &             0.728 &                  0.772 &              0.228 \tabularnewline
+ Australia (M)        &    0.818 &          0.030 &         0.269 &                  0.570 &              0.430 &                  0.763 &              0.237 \tabularnewline
+ 
 \hline
 \end{tabular}
-\caption{Informative Features in Different Countries. F stands for females, and M for males.}
+\caption{Informative features for different countries. F stands for females, and M for males.}
 \vspace{0.3cm}
 \label{table:InfoFeatures}
 \end{table*}
 
-As expected, countries that share language offer similar results, i.e., the variation of the chosen featuers between males and females is comparable.
-This is the case for Uruguay and Spain (Spanish, and USA, UK and Australia (English).
+As expected, countries that share language offer similar results, i.e., the variation of the chosen features between males and females is comparable.
+This is the case for Uruguay and Spain (Spanish), and USA and UK and Australia (English).
 In Canada, a country that has an ample French-speaking community these features show a different trend.
 
-For instance, the letter a varies 0.2 from males to females in (USA and Uruguay) and 0.1 from males to females (United Kingdom, Australia and Spain).
-The last letter a varies 0.5 from males to females in (Australia, Spain), around 0.4 in (USA, United Kingdom) and 0.2 in
+For instance, the letter a varies 0.2 from males to females for USA and Uruguay, and 0.1 from males to females for United Kingdom, Australia and Spain.
+The last letter a varies 0.5 from males to females for Australia and Spain, around 0.4 for USA and United Kingdom and 0.2 in
 Uruguay.
 The last letter o from females to males varies 0.2 in (Spain, Australia) and is equal in Uruguay, USA, United Kingdom.
 For the last letter consonant all countries give as a result that males do have it more frequently, with results that range from 0.3 to 0.5: Uruguay and USA (0.5), United Kingdom (0.4), Australia and Spain (0.3). 
@@ -392,27 +400,25 @@ The results of this experiment could be used to provide a good solution for nick
 
 \section{Limitations and further research}
 
+The market of gender detection tools and services is currently dominated by companies based on payment services through Application Programming Interfaces.
+Without doubt, they offer good results, with high accuracy values.
+However, their inner working cannot be studied (i.e., they work as a black-box for the outsider) and the fees that have to be paid for using their service are sometimes out of the reach of many researchers.
+That is why we propose a new tool, called \texttt{damegender}, with the aim of having open data on gender guessing, which offers more flexibility and where researchers can build on top of it.
+This tool is offered under a free software license and is available on GitHub for download and enhancement.
+As we have shown in this paper, although still incipient, the tool offers good accuracy values based on the use of public databases from government bodies and on the use of machine learning algorithms.
+Nonetheless, we have to note that \texttt{damegender} is still under development, and that it has to be applied to several real repositories to confirm its benefits and address its limitations (such as a small database size of gendered names).
 
-The market of gender detection tools is dominated by companies based on payment services through Application Programming Interfaces with good results. 
-This market could be modified due to Free Software tools and Open Data giving more explicative results for the user.
+In addition, we have shown a glimpse of how several features of the names could be used to guess the gender if we do not have the real name, but nicknames or diminutives.
+This experiment is at this point very preliminary, and we would like to work further on it.
 
-Although machine learning techniques are not new in this field, we are giving an approach to guess strings not found in a dataset that currently is classified as unknown and the humans trend to think in gender terms many strings calling it as nicknames or diminutives.
+All in all, we hope the \texttt{damegender} tool can become a cornerstone for the scientific advancement of the study of gender (including gender gap) and diversity in the IT, and in particular in the free software community.
+We have therefore many hopes in linking the output of repositories like the ones that can be fetched by Perceval (git, mbox mailing lists, Gerrit, Bugzilla, etc.).
+As a result, we envision a free and universal dataset with support for all languages and cultures.
 
-These previous advances in computer science could be giving support to study the gender gap in repositories and mailing lists.
-Another future work is to create a free and universal dataset with support for all languages and cultures.
 
+\section*{Acknowledgments}
 
-\section*{Acknowledgements}
-
-Thanks to:
-
-Lucía Santamaría and Helena Mihaljevic by the previous work.
-
-Daniel Izquierdo and Laura Arjona for starts this research field in the URJC.
-
-Jesus González Boticario and the people who is working with him in the UNED by the motivation towards the machine learning.
-
-All people working with Jesus González Barahona and Gregorio Robles.
+We would like to thank: Lucía Santamaría and Helena Mihaljevic by the previous work; Daniel Izquierdo and Laura Arjona for starts this research field in the URJC; Jesus González Boticario and the people who work with him at UNED for the motivation towards the machine learning; all people working with Jesus González Barahona and Gregorio Robles.
 
 \bibliographystyle{alpha} 
 \bibliography{bibtex}
