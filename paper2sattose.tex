@@ -95,7 +95,7 @@ The remainder of this paper is structured as follows:
 In Section 2 we explain \texttt{damegender} as solution to the
 problem of gender guessing. Section 3 introduces the Open Datasets used as the \emph{golden truth}.
 Section 4 presents a feature comparison with other gender guession tools and services.
-Section 5 reports on accuracies and offers a confusion matrix using a scientific dataset.
+Section 5 reports on values of accuracy and offers a confusion matrix using a scientific dataset.
 Section 6 is about how we use Machine Learning in \texttt{damegender}.
 Section 7 discusses limitations and futher research, and concludes the paper.
 
@@ -200,7 +200,7 @@ The features observed in this framework are: (i) database size (as of January 20
 We have used this comparison framework and have extended it with other tools, including \texttt{damegender} and updated it to today.
 Results can be found in Table~\ref{table:comparison}.
 
-\section{Reproducing accuracies and confusion matrix}
+\section{Reproducing values of accuracy and confusion matrix}
 
 There are different ways to express the probability of a successful identification (e.g., confidence, scale, accuracy, precision, recall).
 We se the confusion matrix to understand where the different tools suceed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
@@ -237,13 +237,13 @@ Nameapi & 0.830 & 0.974 & 0.905 & 1.0\tabularnewline
 Gender Guesser & 0.774 & 0.985 & 0.872 & 1.0\tabularnewline
 \hline
 \end{tabular}
-\caption{Different accuracies measures}
+\caption{Comparison of measures of the quality of the results for the tools under study.}
 \label{table:DifferentAccuraciesMeasures}
 \end{table}
 
 We have performed a comparison using a confusion matrix for the software/tools (see Table~\ref{table:ConfusionMatrixTables}).
 Compared to the results obtained in~\cite{10.7717/peerj-cs.156}, we can see that they are very similar.
-The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) are improving the accuracies with respect the previous comparison.
+The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) are improving the values of accuracy with respect the previous comparison.
 In particular, \texttt{Genderapi} has similar results, but it improves the results for \emph{undefined}.
 In \texttt{Genderguesser} we obtain different results, which is to some extent not expected, because the software has not modified for several years.
 For \texttt{Genderize}, we obtain the same results. 
@@ -308,6 +308,37 @@ Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 
 \section{Machine Learning}
 
+\subsection{Comparing ML algorithms}
+
+\begin{table}
+\footnotesize
+\center
+\begin{tabular}[]{lcccc}
+  \hline
+  ML Algorithm & Acc & Prec & F1 & Recall \tabularnewline
+  \hline
+  %\endhead
+ Support Vector Machines             &    0.879 &     0.972 &   0.972 &    1.0  \tabularnewline
+ Random Forest                       &    0.862 &     0.902 &   0.902 &    1.0  \tabularnewline
+ NLTK (Bayes)                        &    0.862 &     0.902 &   0.902 &    1.0  \tabularnewline
+ Multinomial Navie Bayes             &    0.782 &     0.791 &   0.791 &    1.0  \tabularnewline
+ Tree                                &    0.764 &     0.821 &   0.796 &    1.0  \tabularnewline
+ Stoch. Gradient Distrib.    &    0.709 &     0.943 &   0.815 &    1.0  \tabularnewline
+ Gaussian Naive Bayes                &    0.709 &     0.968 &   0.887 &    1.0  \tabularnewline
+ Bernoulli Naive Bayes               &    0.699 &     0.965 &   0.816 &    1.0  \tabularnewline
+ 
+\hline
+\end{tabular}
+\caption{Machine Learning Algorithms and accuracy measures}
+\label{table:MLAccuracies}
+\end{table}
+
+Table~\ref{table:MLAccuracies} shows the accuracy measures for some Machine Learning algorithms used for in our guessing. 
+The best results are given for Support Vector Machines and Random Forest -- with those algorithms \texttt{damegender} achieves values that are close to more mature, proprietary solutions.
+Our classifier is binary (only male and female).
+
+\subsection{Experimenting with some features}
+
 We have developed some experimental functionality that allows to analyze our database according to some features using machine learning algorithms.
 To test our approach, we have selected some features of the names, such as a being the first letter, a (or o) being the last letter, contains the letter a, first letter is a vocal, last letter is a vocal, last letter is a consonant, or last letter is a. 
 The selection of the features was verified with Principal Component Analysis.
@@ -350,40 +381,10 @@ For the last letter consonant all countries give as a result that males do have 
 So, last letter vocal is reverse than last letter consonant. 
 First letter consonant or first letter vocal is a non-significant feature due to offering similar results in English and Spanish.
 
-
-The relevant metrics with the different algorithms are shown in Table~\ref{table:MLAccuracies}.
-
-\begin{table}
-\footnotesize
-\center
-\begin{tabular}[]{lcccc}
-  \hline
-  ML Algorithm & Acc & Prec & F1 & Recall \tabularnewline
-  \hline
-  %\endhead
- Support Vector Machines             &    0.879 &     0.972 &   0.972 &    1.0  \tabularnewline
- Random Forest                       &    0.862 &     0.902 &   0.902 &    1.0  \tabularnewline
- NLTK (Bayes)                        &    0.862 &     0.902 &   0.902 &    1.0  \tabularnewline
- Multinomial Navie Bayes             &    0.782 &     0.791 &   0.791 &    1.0  \tabularnewline
- Tree                                &    0.764 &     0.821 &   0.796 &    1.0  \tabularnewline
- Stoch. Gradient Distrib.    &    0.709 &     0.943 &   0.815 &    1.0  \tabularnewline
- Gaussian Naive Bayes                &    0.709 &     0.968 &   0.887 &    1.0  \tabularnewline
- Bernoulli Naive Bayes               &    0.699 &     0.965 &   0.816 &    1.0  \tabularnewline
- 
-\hline
-\end{tabular}
-\caption{Machine Learning Algorithms and accuracies measures}
-\label{table:MLAccuracies}
-\end{table}
-
-The results in Table~\ref{table:MLAccuracies} show that using algorithms as Support Vector Machines or Random Forest against a scientific dataset created by independent researchers where it is possible to reach results similar to another commercial solutions about gender detection tools.
-Our classifier is binary (only male and female).
-
-We were doing this experiment with NLTK and INE datasets with accuracies reaching accuracies until 0.745.
-So it makes sense expect better results in random datasets augmenting languages and countries.
+We have done this experiment with the NLTK and INE datasets, with the values of accuracy reaching up to 0.745.
+So it makes sense to expect better results in random datasets if we add new languages and countries.
 However, our solution is not providing Arabic or Chinese alphabets, yet.
-
-Based on this experiment, we think that it is possible to infer that \texttt{damegender} could provide a good solution for nicknames, diminutives, or similar.
+The results of this experiment could be used to provide a good solution for nicknames, diminutives, or similar.
 
 
 \section{Limitations and further research}
