@@ -40,7 +40,7 @@ In this paper we present a free software tool, called \texttt{damegender}, which
 % Results 
 We have compared \texttt{damegender} with other tools, obtaining good results.
 % Conclusions.
-
+We hope the \texttt{damegender} tool can become a cornerstone for the scientific advancement of the study of gender (including gender gap) and diversity in the IT, and in particular in the free software community.
 \end{abstract}
 
 
@@ -94,8 +94,8 @@ As a result, we contribute with:
 The remainder of this paper is structured as follows:
 
 In Section 2 we explain \texttt{damegender} as solution to the
-problem of gender guessing. Section 3 introduces the Open Datasets used as the \emph{golden truth}.
-Section 4 presents a feature comparison with other gender guessing tools and services.
+problem of name-to-gender inference. Section 3 introduces the Open Datasets used as the \emph{golden truth}.
+Section 4 presents a feature comparison with other name-to-gender inference services and tools.
 Section 5 reports on values of accuracy and offers a confusion matrix using a scientific dataset.
 Section 6 is about how we use Machine Learning in \texttt{damegender}.
 Section 7 discusses limitations and further research, and concludes the paper.
@@ -114,7 +114,7 @@ The best contribution of \texttt{Gender guesser} is the dataset containing 48,52
 
 \section{Datasets}
 
-Gender guesser tools apply several methods for estimating the gender from a given name. 
+Name-to-gender inference services and tools apply several methods for estimating the gender from a given name. 
 As a starting point, however, all of them rely on a dataset that contains information on what gender a name usually can be attributed to.
 
 There are several sources to create a databases, being the most common:  
@@ -147,7 +147,7 @@ Limits number of requests & Yes (200) & \infinity & Yes & Yes & Yes & \infinity 
 Subscription (100K requests/month)	 & 79 & 0 & 7 & 150 & 80 & 0 \tabularnewline
 \hline
 \end{tabular}
-\caption{Comparison of the different features that gender guesser software services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \}. The subscription price is given in euro.}
+\caption{Comparison of the different features that name-to-gender inference services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \}. The subscription price is given in euro.}
 \label{table:comparison}
 \end{table*}
 
@@ -179,7 +179,7 @@ The problem with these data is that we have observed that they do not have the q
 The third approach is based on the trust on commercial solutions, in the same way we trust search engines when we make searches in Internet.
 This is because commercial APIs can be seen just a black box, so we do not know where the data comes from and how it has been treated.
 As at this point, commercial APIs offer better results as other solutions, \texttt{damegender} gives the possibility to include data from them.
-Thus, it is possible to download JSON files from the main commercial gender guesser API solutions (e.g., \texttt{genderapi}, \texttt{genderize}, \texttt{namsor}, \texttt{nameapi}) and use it as the dataset.
+Thus, it is possible to download JSON files from the main commercial name-to-gender inference API solutions (e.g., \texttt{genderapi}, \texttt{genderize}, \texttt{namsor}, \texttt{nameapi}) and use it as the dataset.
 There are certain uses that are currently only available in such tools.
 
 % One user can build proprietary datasets on this way using an average weighted by the precision or accuracy of each Application Programming Interface measured with \texttt{damegender} with an open dataset as base of truth.
@@ -339,18 +339,6 @@ while \texttt{GenderApi} and \texttt{damegender} have a low index of errors.
 \label{table:MLAccuracies}
 \end{table}
 
-Table~\ref{table:MLAccuracies} shows the accuracy measures for some Machine Learning algorithms used for in our guessing. 
-The best results are given for Support Vector Machines and Random Forest -- with those algorithms \texttt{damegender} achieves values that are close to more mature, proprietary solutions.
-Our classifier is binary (only male and female).
-
-\subsection{Experimenting with some features}
-
-We have developed some experimental functionality that allows to analyze our database according to some features using machine learning algorithms.
-To test our approach, we have selected some features of the names, such as a being the first letter, a (or o) being the last letter, contains the letter a, first letter is a vocal, last letter is a vocal, last letter is a consonant, or last letter is a. 
-The selection of the features was verified with Principal Component Analysis.
-The datasets used in this experiment were the ones from the National Institute of Statistics (Spain, Uruguay, United Kingdom, United States of America, Australia and Canada).
-The most relevant results for the different datasets used are offered in Table~\ref{table:InfoFeatures}.
-
 \begin{table*}
 \footnotesize
 \center
@@ -379,6 +367,20 @@ Australia (F)      &    0.922 &         0.588 &         0.033 &                 
 \label{table:InfoFeatures}
 \end{table*}
 
+
+Table~\ref{table:MLAccuracies} shows the accuracy measures for some Machine Learning algorithms used for in our guessing. 
+The best results are given for Support Vector Machines and Random Forest -- with those algorithms \texttt{damegender} achieves values that are close to more mature, proprietary solutions.
+Our classifier is binary (only male and female).
+
+\subsection{Experimenting with some features}
+
+We have developed some experimental functionality that allows to analyze our database according to some features using machine learning algorithms.
+To test our approach, we have selected some features of the names, such as a being the first letter, a (or o) being the last letter, contains the letter a, first letter is a vocal, last letter is a vocal, last letter is a consonant, or last letter is a. 
+The selection of the features was verified with Principal Component Analysis.
+The datasets used in this experiment were the ones from the National Institute of Statistics (Spain, Uruguay, United Kingdom, United States of America, Australia and Canada).
+The most relevant results for the different datasets used are offered in Table~\ref{table:InfoFeatures}.
+
+
 As expected, countries that share language offer similar results, i.e., the variation of the chosen features between males and females is comparable.
 This is the case for Uruguay and Spain (Spanish), and USA and UK and Australia (English).
 In Canada, a country that has an ample French-speaking community these features show a different trend.
@@ -402,7 +404,7 @@ The results of this experiment could be used to provide a good solution for nick
 The market of gender detection tools and services is currently dominated by companies based on payment services through Application Programming Interfaces.
 Without doubt, they offer good results, with high accuracy values.
 However, their inner working cannot be studied (i.e., they work as a black-box for the outsider) and the fees that have to be paid for using their service are sometimes out of the reach of many researchers.
-That is why we propose a new tool, called \texttt{damegender}, with the aim of having open data on gender guessing, which offers more flexibility and where researchers can build on top of it.
+That is why we propose a new tool, called \texttt{damegender}, with the aim of having open data on name-to-gender inference, which offers more flexibility and where researchers can build on top of it.
 This tool is offered under a free software license and is available on GitHub for download and enhancement.
 As we have shown in this paper, although still incipient, the tool offers good accuracy values based on the use of public databases from government bodies and on the use of machine learning algorithms.
 Nonetheless, we have to note that \texttt{damegender} is still under development, and that it has to be applied to several real repositories to confirm its benefits and address its limitations (such as a small database size of gendered names).
@@ -417,7 +419,7 @@ As a result, we envision a free and universal dataset with support for all langu
 
 \section*{Acknowledgments}
 
-We would like to thank: Lucía Santamaría and Helena Mihaljevic by the previous work; Daniel Izquierdo and Laura Arjona for starting this research field at URJC; Jesus González Boticario and the people who work with him at UNED for the motivation towards the machine learning; all people working with Jesus González Barahona and Gregorio Robles.
+We would like to thank: Lucía Santamaría and Helena Mihaljevic for the previous work; Daniel Izquierdo and Laura Arjona for starting this research field at URJC; Jesus González Boticario and the people who work with him at UNED for the motivation towards the machine learning; all people working with Jesus González Barahona and Gregorio Robles.
 
 \bibliographystyle{alpha} 
 \bibliography{bibtex}
