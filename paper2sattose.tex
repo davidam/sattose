@@ -3,7 +3,7 @@
 \usepackage{twocolceurws}
 \usepackage{xcolor}
 
-\title{Damegender: \\ Writing and Comparing Gender Detection Tools}
+\title{[Artifact Presentation] Damegender: \\ Writing and Comparing Gender Detection Tools}
 
 \author{
 David Arroyo Men\'endez \\ GSyC \\ Universidad Rey Juan Carlos \\ d.arroyome@alumnos.urjc.es
@@ -53,12 +53,15 @@ strings, that is useful to guess diminutives or nicknames.
 
 \section{Introduction}
 
-\grex{Here we should have a paragraph introducing the problem}
+In recent times, many research investigations have been made on gender
+diversity in the IT domain.
+Examples of these efforts range from participation in Twitter~\cite{burger2011discriminating,mislove2011understanding},
+in Wikipedia ~\cite{antin2011gender,hill2013wikipedia}, in science~\cite{holman2018gender,dollar1999gender}, and more specifically in the software domain in StackOverflow~\cite{vasilescu2012gender}, GitHub~\cite{vasilescu2015gender} and in Free/Libre/Open Source Software development~\cite{robles2014floss}.
+The interest on gender diversity is become more and more relevant, and so does the identification methods that allow to perform comprehensive studies on gender representation in different domains, given the large amounts of data available, in particular from collaborative environments.
 
-There are different ways to detect gender from a person name and
-perhaps a surname: census, Wikipedia, self-references in trust
-websites, searches in Google Images.
-Another way to do it is by using one of the existing Application Programming Interfaces (APIs) that exist.
+There are different ways to detect gender from a person name and perhaps a surname.
+A first, more rudimentary, is based on data extracted from the census, Wikipedia, self-references in trust websites, searches in Google Images, among others.
+Another way to do it is by using one of the existing Application Programming Interfaces (APIs).
 This paper is about the latter, about their possibilities and limitations.
 Therefore, (i) we evaluate the quality and price of different commercial solutions;
 (ii) we discuss about solutions using free licenses;
@@ -67,14 +70,13 @@ Therefore, (i) we evaluate the quality and price of different commercial solutio
   lists or software repositories, can be done.
 
 As a result, we contribute with: 
-(i) an evaluation of the quality of different solutions applying metrics
-  suggested by Santamaría and Mihaljević~\cite{10.7717/peerj-cs.156};
-(ii) a tool guessing gender from a name giving support to Spanish and
+(i) an evaluation of the quality of different solutions applying well-known metrics;
+(ii) a tool, called \texttt{damegender}, guessing gender from a name giving support to Spanish and
   English from the open data census provides by the states built to understand 
   current technologies in detail;
 (iii) a machine learning solution to strings not found in the
   census dataset to approach the problem with nicknames and diminutives; and 
-(iv) a proof-of-concept applying Perceval~\cite{duenas2018perceval} to detect
+(iv) a proof-of-concept of \texttt{damegender} to detect
   gender in mailing lists and software repositories.
 
 \grex{The remainder of this paper is structured as follows...}
@@ -84,134 +86,69 @@ As a result, we contribute with:
 
 \subsection{Comparing Commercial Solutions}
 
-A standard commercial Application Programming Interface (API) can
-guess the gender for a single name or a list of names (from a CSV file
-or an API call). To express geolocalization you can give surnames, a
-country ISO code, or a language. Generally, you can give a probability
+A standard commercial Application Programming Interface (API) can guess the gender for a single name or a list of names (from a CSV file or an API call). 
+To express geolocalization you can give surnames, a country ISO code, or a language. Generally, you can give a probability
 and a counter associated to a name and gender in a certain population.
 
-~\cite{10.7717/peerj-cs.156} are proposing a good metrics set to
-classify these commercial Application Programming Interfaces
-(features, measuring errors and successes, ...). The features observed
-are: Database size (January 2018), Regular data updates, Handles
-unstructured full name strings, Handles surnames, Handles non-Latin
-alphabets, Implicit geo-localization, Assignment type, Free
-parameters, Open source, Application Programming Interface, Monthly
-free requests, Monthly subscription cost (100,000 requests/month)).
+Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} propose a set of metrics to classify gender tools (features, measuring errors and successes, among others).
+The features observed are: (i) database size (as of January 2018), (ii) if there are regular data updates, (iii) if they handle
+unstructured full name strings, (iv) if they handles surnames, (v) if they handles non-Latin alphabets, (vi) if implicit geolocalization is available, (vii) the type of assignment, (viii) if free parameters are possible, (ix) if the tool is open source, (x) if they offer an API, (xi) the amount of monthly free requests, and (xii) the monthly subscription cost (calculated for 100,000 requests/month)).
 
-It's possible different ways to express probability about the
-succesful (confidence, scale, accuracy, precision, recall, ...),
-confusion matrix to understand where it's successes or fails and
-differente errors measures (error coded, error coded without not
-applicable values, error gender bias, not applicable coded).
+There are different ways to express the probability of a successful identification (confidence, scale, accuracy, precision, recall, ...), confusion matrix to understand where it is successes or fails and different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded).
 
 \subsection{Datasets}
 
-We can divide the next options choosing a dataset: (1) a census
-published with a free license (open census way), (2) a dataset done by
-scientist with a paper in a magazine (scientific way), (3) a dataset
-released with a free license in a free software package (free software
-way), (4) a dataset retrieved from commercial Application Programming
-Interfaces (commercial api way).
+We can divide the next options choosing a dataset: (1) a census published with a free license (open census way), (2) a dataset done by scientist with a paper in a magazine (scientific way), (3) a dataset released with a free license in a free software package (free software way), (4) a dataset retrieved from commercial APIs (commercial API way).
 
-In Damegender, we are including Open Data census about names and
-gender, such as INE.es, Uruguay, USA and United Kingdom. We want
-datasets provided by the software package to increment the speed
-retrieving data.
+In Damegender, we are including Open Data census about names and gender, such as INE.es, Uruguay, USA and United Kingdom. We want datasets provided by the software package to increment the speed retrieving data.
 
-From the user final point of view, the value of using Open Data is
-give a good explanation when we are asking about the gender from a
-name (number of males and females using a specific name in a country)
-versus a probability created by the way explained in
-~\cite{10.7717/peerj-cs.156} or similar.
+From the user final point of view, the value of using Open Data is give a good explanation when we are asking about the gender from a name (number of males and females using a specific name in a country) versus a probability created by the way explained in~\cite{10.7717/peerj-cs.156} or similar.
 
-From the scientific point of view, the value of using Open Data is to
-allow that the experiment can be reviewed by peers on an automatic and
-legal way (using proprietary data the reviewer should request it
-separately to make the review).
+From the scientific point of view, the value of using Open Data is to allow that the experiment can be reviewed by peers on an automatic and legal way (using proprietary data the reviewer should request it separately to make the review).
 
-A second approach is to build the dataset reviewing the names in
-scientific personal sites, Wikipedia,
-... ~\cite{10.7717/peerj-cs.156}. This approach is valid, but it
-consumes many time and efforts, although could be useful if there not
-a legal way to build the dataset.
+A second approach is to build the dataset reviewing the names in scientific personal sites, Wikipedia, ... ~\cite{10.7717/peerj-cs.156}. 
+This approach is valid, but it consumes many time and efforts, although could be useful if there not a legal way to build the dataset.
 
-A third approach is using a dataset from a popular free software
-solution. For instance, Natural Language Tool Kit is providing 8000
-labeled english names. The classification is male or female. The
-problem again is about don't retrieve data with the social science
-quality of National Statistics Institutes. Another example is Gender
-Guesser a good dataset for international names with different
-categories to define the probability. This approach is similar to use
-a dataset released with a paper in a journal, the advantage is to
-understand and add new names with a solid criteria accepted by the
-scientific community.
+A third approach is using a dataset from a popular free software solution. For instance, Natural Language Tool Kit is providing 8000 labeled English names. 
+The classification is male or female. The problem again is about do not retrieve data with the social science quality of National Statistics Institutes. 
+Another example is Gender Guesser a good dataset for international names with different categories to define the probability. 
+This approach is similar to use a dataset released with a paper in a journal, the advantage is to understand and add new names with a solid criteria accepted by the scientific community.
 
-We are using the census approach as base of truth to distinguish if a
-name is male or female in a geographical area. Generally, a name has a
-strong weight to determine if it's a male or a female on this way, for
-instance, David is registered 365196 times as male and 0 times as
-female in Spain National Institute of Statistics.
+We are using the census approach as base of truth to distinguish if a name is male or female in a geographical area. Generally, a name has a strong weight to determine if it is a male or a female on this way.
+For instance, David is registered 365196 times as male and 0 times as female in Spain National Institute of Statistics.
 
-Many countries don't provide Open Data census about gender and names,
-but we envisioned build a Dataset about names and gender free and
-universal working from Gender Guesser dataset and Wikidata as
-solution. Perhaps, to complete this work we need automate humans
-process described in ~\cite{10.7717/peerj-cs.156}.
+Many countries don't provide Open Data census about gender and names, but we envisioned build a Dataset about names and gender free and universal working from Gender Guesser dataset and Wikidata as solution. 
+Perhaps, to complete this work we need automate humans process described in ~\cite{10.7717/peerj-cs.156}.
 
-The last approach is based on to trust on commercial solutions, such
-as we trust on search engines to make searches in Internet (black
-box).  In Damegender we can download json files from main commercial
-Application Programming Interfaces (API) solutions (genderapi,
-genderize, namsor, nameapi, ...). One user can build proprietary
-datasets on this way using an average weighted by the precision or
-accuracy of each Application Programming Interface measured with
-Damegender with an open dataset as base of truth.
+The last approach is based on to trust on commercial solutions, such as we trust on search engines to make searches in Internet (black box).
+In Damegender we can download JSON files from main commercial Application Programming Interfaces (API) solutions (genderapi,
+genderize, namsor, nameapi, ...).
+One user can build proprietary datasets on this way using an average weighted by the precision or accuracy of each Application Programming Interface measured with Damegender with an open dataset as base of truth.
 
-Some Open Datasets, such Spain (INE.es), or United States of America
-is providing support to surnames and the relationship with the
-ethnicity. For example, in United States of America is giving a
-probability with the race and in Spain INE.es is giving the number of
-people with a surname with a nationality different to the spanish
-nationality. The propietary solutions is allowing infer the gender
-with the surname as another parameter, due to names such as Andrea
-changes the gender depending the nationality: in Italia would be male,
-but in Spain would be female.
+Some Open Datasets, such Spain (INE.es), or United States of America is providing support to surnames and the relationship with the ethnicity. 
+For example, in United States of America is giving a probability with the race and in Spain INE.es is giving the number of
+people with a surname with a nationality different to the Spanish nationality.
+The proprietary solutions is allowing infer the gender with the surname as another parameter, due to names such as Andrea
+changes the gender depending the nationality: in Italy would be male, but in Germany it would be female.
 
 \subsection{Free Software}
 
-Before Damegender, only ~\cite{krawetz2006gender} was competing as
-Free Software solution with the main commercial Application
-Programming Interfaces about gender detection from the name. The best
-contribution is the dataset containing 48528 names with a good
-classification by countries.
+Before Damegender, only ~\cite{krawetz2006gender} was competing as Free Software solution with the main commercial Application
+Programming Interfaces about gender detection from the name. 
+The best contribution is the dataset containing 48528 names with a good classification by countries.
 
 \subsection{More software about gender}
 
-In some studies, for example, about Twitter or Github, some people can
-choose between different ways to detect gender (not only names). So,
-we can find gender detection tools from faces in images
-(~\cite{ranjan2017hyperface}), from hand written
-(~\cite{liwicki2011automatic}), or from speeches
-(~\cite{koppel2002automatically}).
+In some studies, for example, about Twitter or GitHub, some people can choose between different ways to detect gender (not only names). 
+So, we can find gender detection tools from faces in images~\cite{ranjan2017hyperface}, from hand written annotations~\cite{liwicki2011automatic}, or from speeches~\cite{koppel2002automatically}.
 
-\subsection{Massive Gender Detection}
-
-There are good studies measuring gender in Internet. Some studies are
-about gender gap in general (~\cite{robles2014floss},
-~\cite{holman2018gender}, ~\cite{dollar1999gender}), Twitter
-(~\cite{burger2011discriminating}, ~\cite{mislove2011understanding})
-Stackoverflow (~\cite{vasilescu2012gender}), Wikipedia
-(~\cite{antin2011gender}, ~\cite{hill2013wikipedia}), Github
-(~\cite{vasilescu2015gender}) ...
 
 \section{Reproducing accuracies and confusion matrix}
 
-~\cite{10.7717/peerj-cs.156} explains different ways to determine
-gender from a name by humans and it gives 7000 names applying these
-methods. In this dataset the gender is classified as male, female or
-unknown. We have used this dataset, but only male and female to these
-experiments. We are showing the results in the next table:
+~\cite{10.7717/peerj-cs.156} explains different ways to determine gender from a name by humans and it gives 7000 names applying these methods. 
+In this dataset the gender is classified as male, female or unknown. 
+We have used this dataset, but only male and female to these experiments.
+We are showing the results in the Table~\ref{table:DifferentAccuraciesMeasures}.
 
 %\begin{table*}[]{@{}lllllll@{}}
 \begin{table}
@@ -232,9 +169,7 @@ Gender Guesser & 0.774 & 0.985 & 0.872 & 1.0\tabularnewline
 \label{table:DifferentAccuraciesMeasures}
 \end{table}
 
-In ~\ref{table:DifferentAccuraciesMeasures} Genderapi and Genderize
-are obtaining the best results, although all solutions is reaching
-results better than 0.8 except Gender Guesser.
+In Table~\ref{table:DifferentAccuraciesMeasures}, Genderapi and Genderize are obtaining the best results, although all solutions is reaching results better than 0.8 except Gender Guesser.
 
 \begin{table}
 \footnotesize
@@ -261,23 +196,18 @@ Nameapi           & male    & 2627 & 674  & 507 \tabularnewline
 \label{table:ConfusionMatrixTables}
 \end{table}
 
-With Damegender has been done a comparison about confusion matrix
-tables depending the API (see ~\ref{table:ConfusionMatrixTables}). If
-we compare these results with the results obtained in
-~\cite{10.7717/peerj-cs.156}, we can understand that the results are
+With Damegender has been done a comparison about confusion matrix tables depending the API (see Table~\ref{table:ConfusionMatrixTables}).
+If we compare these results with the results obtained in~\cite{10.7717/peerj-cs.156}, we can understand that the results are
 similar.
 
-Genderapi has similar results, but it is being improved the undefined
-results. In Genderguesser is we are obtaining different results and it
-is strange, because the software has not modified from some years
-ago. In Genderize we are obtaining the same results. In Nameapi the
-guessed results is changing from male to female with more errors. In
-Namsor the results is so similar. Damegender is not guessing undefined
-because we predict with machine learning if the string is not in the
-database.
+Genderapi has similar results, but it is being improved the undefined results.
+In Genderguesser is we are obtaining different results and it is strange, because the software has not modified from some years
+ago. In Genderize we are obtaining the same results. 
+In Nameapi the guessed results is changing from male to female with more errors. 
+In Namsor the results is similar. 
+Damegender is not guessing undefined because we predict with machine learning if the string is not in the database.
 
-The most important tools Namsor, Genderapi and Genderize are improving the
-accuracies with respect the previous comparison.
+The most important tools Namsor, Genderapi and Genderize are improving the accuracies with respect the previous comparison.
 
 \begin{table*}
 \footnotesize
@@ -298,25 +228,16 @@ Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 \label{table:ApisAndErrors}
 \end{table*}
 
-In the table it is possible to observe a high index of errors in
-Nameapi and Namsor and a low index of errors in GenderApi
-and Damegender.
+In Table~\ref{table:ApisAndErrors} we can observe a high index of errors in Nameapi and Namsor and a low index of errors in GenderApi and Damegender.
 
 
 \section{Machine Learning}
 
-We have developed a script infofeatures.py with our datasets to
-analyze data about features. The datasets used in this experiment was
-retrieved from official datasets from national statistical
-institutions in Spain, Uruguay, United Kingdom, USA. The features used
-are: first letter, last letter, a, b, c, d, e, f, g, h, i, j, k, l, m,
-n, o, p, q, r, s, t, u, v, w, x, y, z, vocals, consonants, first
-letter, first letter vocal, last letter vocal, last letter consonant,
-last letter a. The choosing of features was verified with Principal
-Component Analysis.
-
-Take a look to the most informative features results with the
-different datasets:
+We have developed a script infofeatures.py with our datasets to analyze data about features.
+The datasets used in this experiment was retrieved from official datasets from national statistical
+institutions in Spain, Uruguay, United Kingdom, USA. The features used are: first letter, last letter, [a-z], vocals, consonants, first letter, first letter vocal, last letter vocal, last letter consonant, last letter a. 
+The choosing of features was verified with Principal Component Analysis.
+The most relevant results for the different datasets are offered in Table~\ref{table:InfoFeatures}.
 
 \begin{table*}
 \footnotesize
@@ -339,27 +260,17 @@ Dataset & a & last a & last o & last consonant & last vocal & 1st consonant & 1s
 \label{table:InfoFeatures}
 \end{table*}
 
-The countries where the main language is spanish (Uruguay + Spain) and
-english (USA + United Kingdom + Australia) where is having very
-similar variation with the features chosen between males and females
-with these datasets (remember that this datasets are being extracted
-from official statistics provided by the states). In Canada, a country
-french centric has different rules with this features.
+The countries where the main language is Spanish (Uruguay + Spain) and English (USA + United Kingdom + Australia) where is having very similar variation with the features chosen between males and females with these datasets (remember that these datasets are being extracted from official statistics provided by the states). 
+In Canada, a country French centric has different rules with this features.
 
-The letter a is varying 0.2 from males to females in (USA and Uruguay)
-and 0.1 from males to females (United Kingdom, Australia and
-Spain). The last letter a is varying 0.5 from males to females in
-(Australia, Spain) around 0.4 in (USA, United Kingdom) and 0.2 in
-Uruguay. The last letter o from females to males is varying 0.2 in
-(Spain, Australia) and is equal in (Uruguay, USA, United Kingdom). For
-the last letter consonant all countries is giving the result that is
-for males, with results from 0.2 to 0.5: Uruguay and USA (0.5), United
-Kingdom (0.4), Australia and Spain (0.3). So last letter vocal is
-reverse tha last letter consonant. First letter consonant or first
-letter vocal is a non significative feature due to so similar results
-in english and spanish.
-
-The success with the different algorithms is showed in the next table:
+The letter a is varying 0.2 from males to females in (USA and Uruguay) and 0.1 from males to females (United Kingdom, Australia and Spain).
+The last letter a is varying 0.5 from males to females in (Australia, Spain) around 0.4 in (USA, United Kingdom) and 0.2 in
+Uruguay.
+The last letter o from females to males is varying 0.2 in (Spain, Australia) and is equal in (Uruguay, USA, United Kingdom).
+For the last letter consonant all countries is giving the result that is for males, with results from 0.2 to 0.5: Uruguay and USA (0.5), United Kingdom (0.4), Australia and Spain (0.3). 
+So last letter vocal is reverse than last letter consonant. 
+First letter consonant or first letter vocal is a non significant feature due to so similar results in English and Spanish.
+The relevant metrics with the different algorithms are shown in Table~\ref{table:MLAccuracies}.
 
 \begin{table}
 \footnotesize
@@ -383,73 +294,47 @@ The success with the different algorithms is showed in the next table:
 \label{table:MLAccuracies}
 \end{table}
 
-The results in ~\ref{table:MLAccuracies} shows that using algorithms
-as Support Vector Machines or Random Forest against a scientific
-dataset created by independent researchers where it is possible to
-reach results similar to another commercial solutions about gender
-detection tools. Our classifier is binary (only male and female).
+The results in Table~\ref{table:MLAccuracies} show that using algorithms as Support Vector Machines or Random Forest against a scientific dataset created by independent researchers where it is possible to reach results similar to another commercial solutions about gender detection tools.
+Our classifier is binary (only male and female).
 
-We were doing this experiment with NLTK and INE datasets with
-accuracies reaching accuracies until 0.745. So it makes sense expect
-better results in random datasets augmenting languages and
-countries. Due to our solution is not providing arabic or chinesse
-alphabets, yet.
+We were doing this experiment with NLTK and INE datasets with accuracies reaching accuracies until 0.745.
+So it makes sense expect better results in random datasets augmenting languages and countries.
+However, our solution is not providing Arabic or Chinese alphabets, yet.
 
-So, it's possible infer that Damegender provides a good solution for
-nicknames, diminutives, or similar.
+So, it is possible to infer that Damegender provides a good solution for nicknames, diminutives, or similar.
 
 \section{Implementation}
 
-We have chosen Python free software tools with a good scientific
-impact. Natural Language Toolkit for Natural Language Processing
-~\cite{loper2002nltk}. Scikit for Machine Learning
-~\cite{pedregosa2011scikit}. Numpy for Numerical Computation
-~\cite{van2011numpy}. Matplotlib to visualize results
-~\cite{hunter2007matplotlib}. And Perceval~\cite{duenas2018perceval}
-to retrieve information in mailing lists and repositories.
+We have chosen Python free software tools with a good scientific impact.
+Natural Language Toolkit for Natural Language Processing ~\cite{loper2002nltk}.
+Scikit for Machine Learning~\cite{pedregosa2011scikit}. 
+Numpy for Numerical Computation~\cite{van2011numpy}. 
+Matplotlib to visualize results~\cite{hunter2007matplotlib}. 
+And Perceval~\cite{duenas2018perceval} to retrieve information in mailing lists and repositories.
 
-The current result is a Python package contributed to pip to be used
-from the console.
+The current result is a Python package contributed to pip to be used from the console.
 
-The software is using an oriented to objects design with unit testing
-for classes and methods using nose and unit testing for Python
-commands using Bash. 
+The software is using an oriented to objects design with unit testing for classes and methods using nose and unit testing for Python commands using Bash. 
 
 A summary of current features in the software are:
 
 \begin{itemize}
-\item To deduce the gender about a name in Spanish or English (current
-  status) from open census in local.
-\item To decide about males and females in strings using different
-  machine learning algorithms.
-\item To use the main solutions in gender detection (genderize, genderapi,
-namsor, nameapi and gender guesser) from a command.
-\item To research about why a name is related to males or females with
-  statistics. We provide Python commands about study and compare
-  gender solutions with: confusion matrix, accuracies, error
-  measures. And to decide about features: statistical feature weight,
-  principal component analysis, ...
-\item To determine gender gap in free software repositories or mailing
-  lists (proof of concept)
+\item To deduce the gender about a name in Spanish or English (current   status) from open census in local.
+\item To decide about males and females in strings using different machine learning algorithms.
+\item To use the main solutions in gender detection (genderize, genderapi, namsor, nameapi and gender guesser) from a command.
+\item To research about why a name is related to males or females with   statistics. We provide Python commands about study and compare gender solutions with: confusion matrix, accuracies, error measures. And to decide about features: statistical feature weight, principal component analysis, ...
+\item To determine gender gap in free software repositories or mailing lists (proof of concept)
 \end{itemize}
 
 \section*{7. Conclusions}
 
-The market of gender detection tools is dominated by companies based
-on payment services through Application Programming Interfaces with
-good results. This market could be modified due to Free Software
-tools and Open Data giving more explicative results for the user.
+The market of gender detection tools is dominated by companies based on payment services through Application Programming Interfaces with good results. 
+This market could be modified due to Free Software tools and Open Data giving more explicative results for the user.
 
-Although machine learning techniques are not new in this field, we
-are giving an approach to guess strings not found in a dataset that
-currently is classified as unknown and the humans trend to think in
-gender terms many strings calling it as nicknames or diminutives.
+Although machine learning techniques are not new in this field, we are giving an approach to guess strings not found in a dataset that currently is classified as unknown and the humans trend to think in gender terms many strings calling it as nicknames or diminutives.
 
-These previous advances in computer science could be giving support to
-study the gender gap in repositories and mailing lists. Another future
-work is to create a free and universal dataset with support for all
-languages and cultures.
-
+These previous advances in computer science could be giving support to study the gender gap in repositories and mailing lists.
+Another future work is to create a free and universal dataset with support for all languages and cultures.
 
 \section*{Acknowledgements}
 
