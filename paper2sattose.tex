@@ -89,13 +89,13 @@ A summary of current features of \texttt{damegender} are:
 
 The remainder of this paper is structured as follows:
 
-In Section 2, we explain Damegender as solution to the problem,
-explaining that we are using Open Datasets extracted from the states
-as base of truth. Section 3, presents a feature comparison with other
-tools.  Section 4, reproduces accuracies and confusion matrix with a
-scientific dataset. The section 5 is about how we are using Machine
-Learning in Damegender. The section 6 is about conclusion, limitations
-and futher research.
+In Section 2, we explain Damegender as solution to the
+problem. Section 3 explains that we are using Open Datasets extracted
+from the states as base of truth. Section 4, presents a feature
+comparison with other tools.  Section 5, reproduces accuracies and
+confusion matrix with a scientific dataset. The section 6 is about how
+we are using Machine Learning in Damegender. The section 7 is about
+conclusion, limitations and futher research.
 
 \section{Damegender}
 
@@ -109,7 +109,7 @@ The software is using an oriented to objects design with unit testing for classe
 The main reason for developing \texttt{damegender} is that there are not many free software tools that help in the identification of gender. Before \texttt{damegender}, only \texttt{Gender guesser}\footnote{https://github.com/lead-ratings/gender-guesser} offered a free software solution in this field~\cite{krawetz2006gender}, and the project has not been active for more than three years now.
 The best contribution of \texttt{Gender guesser} is the dataset containing 48,528 names with a good classification by countries\footnote{\url{https://raw.githubusercontent.com/lead-ratings/gender-guesser/master/gender_guesser/data/nam_dict.txt}}.
 
-\subsection{Datasets}
+\section{Datasets}
 
 Gender guesser tools apply several methods for estimating the gender from a given name. 
 As a starting point, however, all of them rely on a dataset that contains information on what gender a name usually can be attributed to.
@@ -120,8 +120,8 @@ There are several sources to create a databases, being the most common:
 (3) a dataset retrieved from commercial APIs (commercial API way), and
 (4) a dataset which is the result of an investigation and that has been released publicly (scientific way).
 
-In \texttt{damegender}, we are including Open Data census about names and gender, from institutions such as INE.es (the Spanish National Statistics Institute), or the governments of Uruguay, USA and United Kingdom.
-%We want datasets provided by the software package to increment the speed retrieving data.
+In \texttt{damegender}, we are including Open Data census about names and gender, from institutions such as INE.es (the Spanish National Statistics Institute), or the governments of Uruguay, USA and United Kingdom. The datasets provided by the software package is incrementing the speed retrieving data.
+
 Some Open Datasets, such the one offered by INE.es or the government of the United States of America offer support for surnames and how they are related to ethnicity. 
 In particular, the dataset from the government of the United States of America offers a probability of the race, and the Spanish INE.es gives the number of people with a surname with a nationality different to the Spanish nationality.
 
@@ -178,9 +178,12 @@ REST API & Yes & No & Yes & Yes & Yes & Planned\tabularnewline
 Limits number of requests & Yes (200) & \infinity & Yes & Yes & Yes & \infinity \tabularnewline
 \hline
 \end{tabular}
-\caption{Comparison of the different features that gender guesser software services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \}. \grex{Estaria bien contar con ``the monthly subscription cost (calculated for 100,000 requests/month)'' en la tabla, porque daría más info muy relevante.} }
+\caption{Comparison of the different features that gender guesser software services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \}. }
 \label{table:comparison}
 \end{table*}
+
+\grex{Estaria bien contar con ``the monthly subscription cost (calculated for 100,000 requests/month)'' en la tabla, porque daría más info muy relevante.}
+\davidam{Si te da tiempo por mi adelante}
 
 \section{Feature comparison with other tools}
 
@@ -188,27 +191,25 @@ Standard commercial Application Programming Interfaces (APIs) usually guess the 
 To express geolocalization the user can also give surnames, a country ISO code, or specify a language.
 Generally, you can give a probability and a counter associated to a name and gender in a certain population.
 
-Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} offer a framework to classify gender tools.
+Santamaria and Mihaljevic~\cite{10.7717/peerj-cs.156} offers a framework to classify gender tools.
 The features observed in this framework are: (i) database size (as of January 2018), (ii) if there are regular data updates, (iii) if they handle unstructured full name strings, (iv) if they handle surnames, (v) if they handle non-Latin alphabets, (vi) if implicit geolocalization is available, (vii) if locale exists, (viii) the type of assignment, (ix) if free parameters are possible, (x) if they offer prediction, (xi) if the tool is released under an open source license, (xii) if they offer an API, (xiii) the amount of monthly free requests, and (xiv) the monthly subscription cost (calculated for 100,000 requests/month)).
 
 We have used this comparison framework and have extended it with other tools, including \texttt{damegender} and updated it to today.
 Results can be found in Table~\ref{table:comparison}.
-
-
 
 \section{Reproducing accuracies and confusion matrix}
 
 There are different ways to express the probability of a successful identification (e.g., confidence, scale, accuracy, precision, recall).
 We se the confusion matrix to understand where the different tools suceed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
 
-Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} explain different ways to determine gender from a name by humans and offers 7,000 names applying these methods. 
+Santamaria and Mihaljevic~\cite{10.7717/peerj-cs.156} explains different ways to determine gender from a name by humans and offers 7,000 names applying these methods. 
 In their dataset, gender is classified as male, female or unknown. 
 We have used this dataset, not considering the unknow variable, for our experiments.
 The results can be seen in Table~\ref{table:DifferentAccuraciesMeasures}.
 As can be observed, Genderapi and Genderize are obtaining the best results, although all solutions reach results better than 0.8, except for \texttt{Gender Guesser}.
 
 \grex{Deberiamos explicar que es cada una de las metricas. Y tambien por que tenemos 1.0 de recall en todos los casos.}
-
+\davidam{Esto es un poco largo de explicar. Está explicado de una manera abreviada más arriba. Si te ves con energías para explicarlo, está explicado en https://easychair.org/publications/preprint/vthL}
 
 %\begin{table*}[]{@{}lllllll@{}}
 \begin{table}
@@ -265,9 +266,7 @@ Nameapi           & male    & 2627 & 674  & 507 \tabularnewline
 \end{table}
 
 
-In Table~\ref{table:ApisAndErrors} we can observe a high index of errors in \texttt{Nameapi} and \texttt{Namsor} and a low index of errors in \texttt{GenderApi} and \texttt{damegender}.
-
-\grex{Aqui haria falta indicar por que hacemos esta comparacion y que queremos aprender de ella}
+In Table~\ref{table:ApisAndErrors} we can observe the different measures for errors in the APIs. The most visible conclusion is an high index of errors in \texttt{Nameapi} and \texttt{Namsor} and a low index of errors in \texttt{GenderApi} and \texttt{damegender}.
 
 \begin{table*}
 \footnotesize
@@ -380,7 +379,14 @@ Another future work is to create a free and universal dataset with support for a
 
 \section*{Acknowledgements}
 
-Here the acknowledgements come...
+Thanks to:
+Gregorio Robles by the support and suggestions for publish this article in Sattose
+
+Lucía Santamaría and Helena Mihaljevic by the previous work.
+
+Daniel Izquierdo and Laura Arjona for starts this research field in the URJC.
+
+Jesus Gonzalez Boticario and the people who is working with him in the UNED by the motivation towards the machine learning.
 
 \bibliographystyle{alpha} 
 \bibliography{bibtex}
