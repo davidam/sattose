@@ -158,16 +158,7 @@ There are certain uses that are currenly only available in such tools.
 As a final goal, we envision to build a free dataset with names and gender, that builds on top of \texttt{Gender Guesser} and that can be made available as Wikidata. 
 Perhaps, to complete this work, we need to combine an automated with a manual process as described in~\cite{10.7717/peerj-cs.156}.
 
-\section{Comparison with other tools}
-
-Standard commercial Application Programming Interfaces (APIs) usually guess the gender for a single name or a list of names (from a CSV file or an API call). 
-To express geolocalization the user can also give surnames, a country ISO code, or specify a language.
-Generally, you can give a probability and a counter associated to a name and gender in a certain population.
-
-Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} offer a framework to classify gender tools.
-The features observed in this framework are: (i) database size (as of January 2018), (ii) if there are regular data updates, (iii) if they handle unstructured full name strings, (iv) if they handles surnames, (v) if they handles non-Latin alphabets, (vi) if implicit geolocalization is available, (vii) the type of assignment, (viii) if free parameters are possible, (ix) if the tool is open source, (x) if they offer an API, (xi) the amount of monthly free requests, and (xii) the monthly subscription cost (calculated for 100,000 requests/month)).
-
-\begin{table*}
+\begin{table*}[ht]
 \footnotesize
 \begin{tabular}[]{lcccccc}
 \hline
@@ -188,21 +179,35 @@ REST API & Yes & No & Yes & Yes & Yes & Planned\tabularnewline
 Limits number of requests & Yes (200) & \infinity & Yes & Yes & Yes & \infinity \tabularnewline
 \hline
 \end{tabular}
-\caption{Comparison of the different features that gender guesser software services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \} }
-\label{table:}
+\caption{Comparison of the different features that gender guesser software services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \}. \grex{Estaria bien contar con ``the monthly subscription cost (calculated for 100,000 requests/month)'' en la tabla, porque daría más info muy relevante.} }
+\label{table:comparison}
 \end{table*}
 
+\section{Feature comparison with other tools}
 
+Standard commercial Application Programming Interfaces (APIs) usually guess the gender for a single name or a list of names (from a CSV file or an API call). 
+To express geolocalization the user can also give surnames, a country ISO code, or specify a language.
+Generally, you can give a probability and a counter associated to a name and gender in a certain population.
 
-There are different ways to express the probability of a successful identification (confidence, scale, accuracy, precision, recall, ...), confusion matrix to understand where it is successes or fails and different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded).
+Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} offer a framework to classify gender tools.
+The features observed in this framework are: (i) database size (as of January 2018), (ii) if there are regular data updates, (iii) if they handle unstructured full name strings, (iv) if they handle surnames, (v) if they handle non-Latin alphabets, (vi) if implicit geolocalization is available, (vii) if locale exists, (viii) the type of assignment, (ix) if free parameters are possible, (x) if they offer prediction, (xi) if the tool is released under an open source license, (xii) if they offer an API, (xiii) the amount of monthly free requests, and (xiv) the monthly subscription cost (calculated for 100,000 requests/month)).
+
+We have used this comparison framework and have extended it with other tools, including \texttt{damegender} and updated it to today.
+Results can be found in Table~\ref{table:comparison}.
+
 
 
 \section{Reproducing accuracies and confusion matrix}
 
-Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} explains different ways to determine gender from a name by humans and offers 7,000 names applying these methods. 
+There are different ways to express the probability of a successful identification (e.g., confidence, scale, accuracy, precision, recall).
+We se the confusion matrix to understand where the different tools suceed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
+
+Santamara and Mihaljevi~\cite{10.7717/peerj-cs.156} explain different ways to determine gender from a name by humans and offers 7,000 names applying these methods. 
 In their dataset, gender is classified as male, female or unknown. 
 We have used this dataset, not considering the unknow variable, for our experiments.
-The results can be observed in the Table~\ref{table:DifferentAccuraciesMeasures}.
+The results can be seen in Table~\ref{table:DifferentAccuraciesMeasures}.
+As can be observed, Genderapi and Genderize are obtaining the best results, although all solutions reach results better than 0.8, except for \texttt{Gender Guesser}.
+
 
 %\begin{table*}[]{@{}lllllll@{}}
 \begin{table}
@@ -223,7 +228,15 @@ Gender Guesser & 0.774 & 0.985 & 0.872 & 1.0\tabularnewline
 \label{table:DifferentAccuraciesMeasures}
 \end{table}
 
-In Table~\ref{table:DifferentAccuraciesMeasures}, Genderapi and Genderize are obtaining the best results, although all solutions is reaching results better than 0.8 except Gender Guesser.
+We have performed a comparison using a confusion matrix for the software/tools (see Table~\ref{table:ConfusionMatrixTables}).
+Compared to the results obtained in~\cite{10.7717/peerj-cs.156}, we can see that they are very similar.
+The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) are improving the accuracies with respect the previous comparison.
+In particular, \texttt{Genderapi} has similar results, but it improves the results for \emph{undefined}.
+In \texttt{Genderguesser} we obtain different results, which is to some extent not expected, because the software has not modified for several years.
+For \texttt{Genderize}, we obtain the same results. 
+\texttt{Nameapi}'s results is changing from male to female with more errors. 
+In \texttt{Namsor}, the results are similar. 
+\texttt{damegender} is not guessing undefined because we predict with machine learning (SVC) if the string is not in the database.
 
 \begin{table}
 \footnotesize
@@ -250,18 +263,8 @@ Nameapi           & male    & 2627 & 674  & 507 \tabularnewline
 \label{table:ConfusionMatrixTables}
 \end{table}
 
-With \texttt{damegender} has been done a comparison about confusion matrix tables depending the API (see Table~\ref{table:ConfusionMatrixTables}).
-If we compare these results with the results obtained in~\cite{10.7717/peerj-cs.156}, we can understand that the results are
-similar.
 
-Genderapi has similar results, but it is being improved the undefined results.
-In Genderguesser is we are obtaining different results and it is strange, because the software has not modified from some years
-ago. In Genderize we are obtaining the same results. 
-In Nameapi the guessed results is changing from male to female with more errors. 
-In Namsor the results is similar. 
-\texttt{damegender} is not guessing undefined because we predict with machine learning if the string is not in the database.
-
-The most important tools Namsor, Genderapi and Genderize are improving the accuracies with respect the previous comparison.
+In Table~\ref{table:ApisAndErrors} we can observe a high index of errors in \texttt{Nameapi} and \texttt~Namsor} and a low index of errors in \texttt{GenderApi} and \texttt{damegender}.
 
 \begin{table*}
 \footnotesize
@@ -281,8 +284,6 @@ Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 \caption{APIs and Errors}
 \label{table:ApisAndErrors}
 \end{table*}
-
-In Table~\ref{table:ApisAndErrors} we can observe a high index of errors in Nameapi and Namsor and a low index of errors in GenderApi and \texttt{damegender}.
 
 
 \section{Machine Learning}
