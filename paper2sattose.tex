@@ -103,7 +103,7 @@ Section~\ref{sec:limitations} discusses limitations and further research, and co
 \label{sec:damegender}
 
 \texttt{damegender}\footnote{https://github.com/davidam/damegender} is a gender detection tool released under a free software license (in particular, the GNU General Public License v3.0). 
-It has been implemented in Python to take advantage of many other free software tools used in the scientific domain, such as the Natural Language Toolkit (NLTK) for natural language processing~\cite{loper2002nltk}, Scikit for machine learning~\cite{pedregosa2011scikit}, Numpy nor mumerical computation~\cite{van2011numpy}, and Matplotlib to visualize results~\cite{hunter2007matplotlib}. 
+It has been implemented in Python to take advantage of many other free software tools used in the scientific domain, such as the Natural Language Toolkit (NLTK) for natural language processing~\cite{loper2002nltk}, Scikit for machine learning~\cite{pedregosa2011scikit}, Numpy nor numerical computation~\cite{van2011numpy}, and Matplotlib to visualize results~\cite{hunter2007matplotlib}. 
 At its current point it is linked to Perceval~\cite{duenas2018perceval}, a tool specialized in retrieving and gathering data from software repositories, such as git and mailing lists.
 \texttt{damegender} is a Python package that can be easily installed using PIP (the package installer for Python) from the console.
 
@@ -151,6 +151,7 @@ Subscription (100K requests/month)	 & 79 & 0 & 7 & 150 & 80 & 0 \tabularnewline
 \hline
 \end{tabular}
 \caption{Comparison of the different features that name-to-gender inference services and tools offer. Assignment type = \{P: Probabilistic; B: Binary\}. Free Parameters = \{T: total\_names; P: probability; C: count; G: gender; T: trust; S: scale \}. The subscription price is given in euro.}
+\vspace{0.3cm}
 \label{table:comparison}
 \end{table*}
 
@@ -198,15 +199,18 @@ Perhaps, to complete this work, we need to combine an automated with a manual pr
 \section{Feature comparison with other tools}
 \label{sec:comparison}
 
-Standard commercial Application Programming Interfaces (APIs) usually guess the gender for a single name or a list of names (from a CSV file or an API call). 
+Standard commercial name-to-gender inference Application Programming Interfaces (APIs) usually guess the gender for a single name or a list of names (from a CSV file or an API call). 
 To express geolocalization the user can also give surnames, a country ISO code, or specify a language.
 Generally, you can give a probability and a counter associated to a name and gender in a certain population.
 
-Santamaría and Mihaljevic~\cite{10.7717/peerj-cs.156} offer a framework to classify gender tools.
+Santamaría and Mihaljevi\'c~\cite{10.7717/peerj-cs.156} offer a framework to classify gender tools.
 The features observed in this framework are: (i) database size (as of January 2018), (ii) if there are regular data updates, (iii) if they handle unstructured full name strings, (iv) if they handle surnames, (v) if they handle non-Latin alphabets, (vi) if implicit geolocalization is available, (vii) if locale exists, (viii) the type of assignment, (ix) if free parameters are possible, (x) if they offer prediction, (xi) if the tool is released under an open source license, (xii) if they offer an API, (xiii) the amount of monthly free requests, and (xiv) the monthly subscription cost (calculated for 100,000 requests/month)).
 
-We have used this comparison framework and have extended it with other tools, including \texttt{damegender} and updated it to today.
+We have used this comparison framework and have updated it to the current situation and extended it with \texttt{damegender}.
 Results can be found in Table~\ref{table:comparison}.
+As it can be observed, commercial services have the advantage of owning large datasets, in the order of millions or even of billions of entries.
+The most advanced ones offer support for non-Latin alphabets.
+On the other side, they limit the amount of free requests that can be performed and their costs range from 7 euro to 150 euro per month.
 
 \section{Reproducing values of accuracy and confusion matrix}
 \label{sec:reproducing}
@@ -230,22 +234,27 @@ Gender Guesser & 0.774 & 0.985 & 0.872 & 1.0\tabularnewline
 \label{table:DifferentAccuraciesMeasures}
 \end{table}
 
+In this section, we will analyze the quality of service of existing name-to-gender inference services and tools.
 There are different ways to express the probability of a successful identification (e.g., confidence, scale, accuracy, precision, recall).
-We can see in  the confusion matrix to understand where the different tools succeed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
+We can also inspect the confusion matrix to understand where the tools and services succeed or fail, and to analyze the different errors measures (error coded, error coded without not applicable values, error gender bias, not applicable coded) that appear.
 
-Santamaria and Mihaljevic~\cite{10.7717/peerj-cs.156} explain different ways to determine gender from a name by humans and offer 7,000 names applying these methods. 
+Santamaría and Mihaljevi\'c~\cite{10.7717/peerj-cs.156} explain different ways to determine gender from a name; they offer 7,000 names that can serve as the \emph{golden set} to evaluate them. 
 In their dataset, gender is classified as male, female or unknown. 
 We have used this dataset, not considering the unknown variable, for our experiments.
+
 The results, using common information retrieval metrics, can be seen in Table~\ref{table:DifferentAccuraciesMeasures}.
 Accuracy is the ratio of correctly predicted observation to the total observations.
-It should be noted that \emph{Accuracy} can be a misleading metric for imbalanced data sets, such as the ones that we usually have in software development projects.
-So, for a sample with 85 negative and 15 positive values, classifying all values as negative in this case gives a score of accuracy of 0.85.
-In those cases, it is better to report other measures, such as the balanced accuracy (bACC), which normalizes true positive and true negative predictions by the number of positive and negative samples~\cite{mower2005prep}.
+It should be noted that \emph{Accuracy} can be a misleading metric for imbalanced data sets, such as the ones that we usually have in software development projects~\cite{ghosh2002free}.
+This is because for a sample with 85 negative and 15 positive values, classifying all values as negative would give an accuracy score of 0.85.
+In those cases, it is better to report other measures, such as the balanced accuracy, which normalizes true positive and true negative predictions by the number of positive and negative samples~\cite{mower2005prep}.
+As Santamaría and Mihaljevi\'c's data does not come from the IT domain, we can use accuracy in our research.
 Precision is the fraction of relevant instances among the retrieved instances.
 Recall is the fraction of the total amount of relevant instances that were actually retrieved.
 In our case, we have left no name out, so recall is 1 for all tools.
 Precision and recall are sometimes used together in the F1 Score (or f-measure) to provide a single measurement for a system.
-As can be observed, Genderapi and Genderize obtain the best results -- although all solutions are close and reach results better than 0.8 for accuracy, except for \texttt{Gender Guesser}.
+As can be observed, \texttt{Genderapi} and \texttt{Genderize} obtain the best results -- although all solutions are close and reach results better than 0.8 for accuracy, except for \texttt{Gender Guesser}.
+\texttt{damegender} offers relatively good results.
+Given, on the other hand, that its focus is mainly to be used in the IT domain, where the gender is highly imbalanced, we are very positive about its precision, as accuracy is not that relevant as noted above.
 
 %\grex{Deberiamos explicar que es cada una de las metricas. Y tambien por que tenemos 1.0 de recall en todos los casos.}
 %\davidam{Esto es un poco largo de explicar. Está explicado de una manera abreviada más arriba. Si te ves con energías para explicarlo, está explicado en https://easychair.org/publications/preprint/vthL}
@@ -278,15 +287,15 @@ Nameapi           & male    & 2627 & 674  & 507 \tabularnewline
 \end{table}
 
 
-We have performed a comparison using a confusion matrix for the software/tools (see Table~\ref{table:ConfusionMatrixTables}).
-Compared to the results obtained in~\cite{10.7717/peerj-cs.156}, we can see that they are very similar.
-The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) are improving the values of accuracy with respect the previous comparison.
-In particular, \texttt{Genderapi} has similar results, but it improves the results for \emph{undefined}.
-In \texttt{Genderguesser} we obtain different results, which is to some extent not expected, because the software has not modified for several years.
-For \texttt{Genderize}, we obtain the same results. 
+We have performed a comparison using a confusion matrix for the software/tools under study (see Table~\ref{table:ConfusionMatrixTables}).
+These results are very similar to the ones reported in~\cite{10.7717/peerj-cs.156}, which offers confidence that we have done our comparison correctly.
+The most important tools (\texttt{Namsor}, \texttt{Genderapi} and \texttt{Genderize}) improve the values of accuracy with respect to the previous comparison.
+In particular, \texttt{Genderapi} improves the results for \emph{undefined}.
+For \texttt{Genderize}, we obtain exactly the same results. 
+For \texttt{Genderguesser}, however, we obtain different results, which is to some extent not expected, because the software has not been modified for several years.
 \texttt{Nameapi}'s results is changing from male to female with more errors. 
 In \texttt{Namsor}, the results are similar. 
-\texttt{damegender} is not guessing undefined because we predict with machine learning (SVC) if the string is not in the database.
+\texttt{damegender} is not guessing undefined because we predict with machine learning (using an SVC algorithm) if the string is not in the database.
 
 \begin{table*}
 \footnotesize
@@ -310,14 +319,13 @@ Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 \end{table*}
 
 
-In Table~\ref{table:ApisAndErrors} we observe the different measures for errors in the APIs.
-Error coded defines if the true is different than the guessed one. 
-Error coded without na defines if the true is different than the guessed one, but without undefined results.
-Error gender bias allows to understand if the error is bigger for guessing males than females or viceversa.
-The weighted error defines if the true value is different than the guessed one, but giving a weight to the guessed as undefined.
+In Table~\ref{table:ApisAndErrors} we can see the different measures for errors in the APIs.
+\emph{Error coded} defines if the true is different than the guessed one. 
+\emph{Error coded without na} defines if the true is different than the guessed one, but without undefined results.
+\emph{Error gender bias} allows to understand if the error is bigger for guessing males than females or viceversa.
+The \emph{weighted error} defines if the true value is different than the guessed one, but giving a weight to the guessed as undefined.
 The most relevant information is a high index of errors for \texttt{Nameapi} and \texttt{Namsor},
 while \texttt{GenderApi} and \texttt{damegender} have a low index of errors.
-
 
 
 \section{Machine Learning}
@@ -338,10 +346,9 @@ while \texttt{GenderApi} and \texttt{damegender} have a low index of errors.
  NLTK (Bayes)                        &    0.862 &     0.902 &   0.902 &    1.0  \tabularnewline
  Multinomial Naive Bayes             &    0.782 &     0.791 &   0.791 &    1.0  \tabularnewline
  Tree                                &    0.764 &     0.821 &   0.796 &    1.0  \tabularnewline
- Stoch. Gradient Distrib.    &    0.709 &     0.943 &   0.815 &    1.0  \tabularnewline
+ Stoch. Gradient Distrib.            &    0.709 &     0.943 &   0.815 &    1.0  \tabularnewline
  Gaussian Naive Bayes                &    0.709 &     0.968 &   0.887 &    1.0  \tabularnewline
  Bernoulli Naive Bayes               &    0.699 &     0.965 &   0.816 &    1.0  \tabularnewline
- 
 \hline
 \end{tabular}
 \caption{Machine Learning Algorithms and accuracy measures}
@@ -377,32 +384,31 @@ Australia (F)      &    0.922 &         0.588 &         0.033 &                 
 \end{table*}
 
 
-Table~\ref{table:MLAccuracies} shows the accuracy measures for some Machine Learning algorithms used for in our guessing. 
-The best results are given for Support Vector Machines and Random Forest -- with those algorithms \texttt{damegender} achieves values that are close to more mature, proprietary solutions.
-Our classifier is binary (only male and female).
+Table~\ref{table:MLAccuracies} shows the accuracy measures for some Machine Learning algorithms used in our guessing. 
+The best results are given by Support Vector Machines and Random Forest -- with those algorithms \texttt{damegender} achieves values that are close to more mature, proprietary solutions.
+It should be noted that as a result of using machine learning techniques, our classifier is binary (male and female), so no \emph{unknown} is given as output.
 
 \subsection{Experimenting with some features}
 
-We have developed some experimental functionality that allows to analyze our database according to some features using machine learning algorithms.
-To test our approach, we have selected some features of the names, such as a being the first letter, a (or o) being the last letter, contains the letter a, first letter is a vocal, last letter is a vocal, last letter is a consonant, or last letter is a. 
+We have developed some additional experimental functionality that allows to analyze our database according to some features using machine learning algorithms.
+To test our approach, we have selected some features of names, such as a being the first letter, a (or o) being the last letter, contains the letter a, first letter is a vocal, last letter is a vocal, last letter is a consonant, or last letter is a. 
 The selection of the features was verified with Principal Component Analysis.
 The datasets used in this experiment were the ones from the National Institute of Statistics (Spain, Uruguay, United Kingdom, United States of America, Australia and Canada).
 The most relevant results for the different datasets used are offered in Table~\ref{table:InfoFeatures}.
-
 
 As expected, countries that share language offer similar results, i.e., the variation of the chosen features between males and females is comparable.
 This is the case for Uruguay and Spain (Spanish), and USA and UK and Australia (English).
 In Canada, a country that has an ample French-speaking community these features show a different trend.
 
-For instance, the letter a varies 0.2 from males to females for USA and Uruguay, and 0.1 from males to females for United Kingdom, Australia and Spain.
-The last letter a varies 0.5 from males to females for Australia and Spain, around 0.4 for USA and United Kingdom and 0.2 in
+For instance, the feature \emph{containing the letter a in the name} varies 0.2 from males to females for USA and Uruguay, and 0.1 from males to females for United Kingdom, Australia and Spain.
+The feature \emph{the last letter is an a} varies 0.5 from males to females for Australia and Spain, around 0.4 for USA and United Kingdom and 0.2 in
 Uruguay.
-The last letter o from females to males varies 0.2 in (Spain, Australia) and is equal in Uruguay, USA, United Kingdom.
-For the last letter consonant all countries give as a result that males do have it more frequently, with results that range from 0.3 to 0.5: Uruguay and USA (0.5), United Kingdom (0.4), Australia and Spain (0.3). 
-So, last letter vocal is reverse than last letter consonant. 
-First letter consonant or first letter vocal is a non-significant feature due to offering similar results in English and Spanish.
+The feature \emph{the last letter is an o} varies 0.2 in (Spain, Australia) from females to males and is equal in Uruguay, USA, United Kingdom.
+For the feature \emph{the last letter is a consonant} all countries give as a result that males do have it more frequently, with results that range from 0.3 to 0.5: Uruguay and USA (0.5), United Kingdom (0.4), Australia and Spain (0.3). 
+So, the feature \emph{the last letter is a vocal} is, as expected, the reverse of the feature \emph{the last letter is a consonant}. 
+The features \emph{the first letter is a consonant} or \emph{the first letter is a vocal} are, however, non-significant as they offer similar results in English and Spanish.
 
-We have done this experiment with the NLTK and INE datasets, with the values of accuracy reaching up to 0.745.
+We have done this experiment with the NLTK and INE.es datasets, with the values of accuracy reaching up to 0.745.
 So it makes sense to expect better results in random datasets if we add new languages and countries.
 However, our solution is not providing Arabic or Chinese alphabets, yet.
 The results of this experiment could be used to provide a good solution for nicknames, diminutives, or similar.
@@ -414,13 +420,13 @@ The results of this experiment could be used to provide a good solution for nick
 The market of gender detection tools and services is currently dominated by companies based on payment services through Application Programming Interfaces.
 Without doubt, they offer good results, with high accuracy values.
 However, their inner working cannot be studied (i.e., they work as a black-box for the outsider) and the fees that have to be paid for using their service are sometimes out of the reach of many researchers.
-That is why we propose a new tool, called \texttt{damegender}, with the aim of having open data on name-to-gender inference, which offers more flexibility and where researchers can build on top of it.
+That is why we propose a new tool, called \texttt{damegender}, with the aim of having open data of name-to-gender inference, which offers more flexibility and where researchers can build on top of it.
 This tool is offered under a free software license and is available on GitHub for download and enhancement.
 As we have shown in this paper, although still incipient, the tool offers good accuracy values based on the use of public databases from government bodies and on the use of machine learning algorithms.
 Nonetheless, we have to note that \texttt{damegender} is still under development, and that it has to be applied to several real repositories to confirm its benefits and address its limitations (such as a small database size of gendered names).
 
-In addition, we have shown a glimpse of how several features of the names could be used to guess the gender if we do not have the real name, but nicknames or diminutives.
-This experiment is at this point very preliminary, and we would like to work further on it.
+In addition, we have shown a glimpse of how several features of the names could be used to guess the gender if we do not have the real name, but nicknames or diminutives, a situation that is very common in free software development-supporting tools, such as IRC channels.
+This experiment is at this point very preliminary, and we would like to work more on it.
 
 All in all, we hope the \texttt{damegender} tool can become a cornerstone for the scientific advancement of the study of gender (including gender gap) and diversity in the IT, and in particular in the free software community.
 We have therefore many hopes in linking the output of repositories like the ones that can be fetched by Perceval (git, mbox mailing lists, Gerrit, Bugzilla, etc.).
@@ -429,7 +435,7 @@ As a result, we envision a free and universal dataset with support for all langu
 
 \section*{Acknowledgments}
 
-We would like to thank: Lucía Santamaría and Helena Mihaljevic for the previous work; Daniel Izquierdo and Laura Arjona for starting this research field at URJC; Jesus González Boticario and the people who work with him at UNED for the motivation towards the machine learning; all people working with Jesus González Barahona and Gregorio Robles.
+We would like to thank: Lucía Santamaría and Helena Mihaljevi\'c for the previous work; Daniel Izquierdo and Laura Arjona for starting this research field at URJC; Jesus González Boticario and his team at UNED for the motivation towards machine learning; all those working with Jesus González Barahona and Gregorio Robles.
 
 \bibliographystyle{alpha} 
 \bibliography{bibtex}
