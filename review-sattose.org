@@ -1,0 +1,221 @@
+* TODO Review 1 SaTToSE
+** TODO Section 2
+*** SaTToSE
+The Section 2 is named with the tool name "Damegender", and hence, I
+would expect that the authors would explain the tool in this section,
+its architecture, how it works, etc. Instead, the authors briefly
+explained why it was written in Python and presented on competitor. I
+would recommend the authors to revise this section to better explain
+how the tool works, what are in the inputs, outputs, preconditions,
+etc. Even an image of the structure of the tool would be nice to see.
+*** TODO Ideas para mejorar
++ [ ] Me fijé en los artículos de NLTK y Scikit para el nivel de
+  detalle que se ofrecía.
++ [ ] Se puede añadir Diagrama UML de Clases
++ [ ] Los input, outputs dependen de los scripts que esté usando se
+  puede echar a los scripts bash testsbycommands.sh. No sabría muy
+  bien cómo organizar esta información en un paper.
+** TODO Section 4
+*** SaTToSE
+Section 4 presents some comparison of the authors' tool and others
+existing tools. But they authors still did not present their tool in
+the paper. I strongly recommend the authors to first present properly
+their tool (as mentioned above), and the only after that to present
+the comparisons.
+*** TODO Ideas para mejorar
+Ok. Trabajar la crítica anterior
+
+** TODO Section 5. First comment
+*** TODO SaTToSE
+In Section 5, I suggest to describe the male vs female distribution of
+the 7,000 names from the golden set the authors used. They discuss
+about the problem of imbalanced datasets, but they do not describe
+their dataset.
+*** TODO 
++ [ ] Las autoras habían generado 7000 nombres en 3 categorías (male,
+  female, undefined). El dataset tiene sentido que lo pensaran así,
+  varias herramientas consideran devolver undefined, pero para mí no
+  tiene mucho sentido. Yo escojo male y female y doy una probabilidad
+  permitiendo dar un contexto. Así que eliminé los undefined a 5779
+  nombres.
++ [ ] Males: 3811
++ [ ] Females: 1968
+
+** TODO Section 5. Second comment
+*** TODO SaTToSE
+In Section 5, I do not understand the claim "As Santamaria and
+Mihaljevic's data does not come from the IT domain, we can use
+accuracy in our research.". This was state right after the discussion
+of the problems with imbalanced datasets, how does their work not
+being from IT helps on this? I think such statement does not make
+sense. Please review this and provide a better motivation for
+considering accuracy. But as mentioned above, please describe how
+imbalanced is your dataset. If so, you can think of using different
+metrics which are more suitable for imbalanced datasets such as AUC
+(Area Under the ROC ((receiver operating characteristic curve) Curve).
+*** TODO Comentarios
++ [ ] Tenemos un script roc.py funciona para los diferentes algoritmos
+  de ML. No estoy muy familiarizado con estas técnicas podríamos ver
+  juntos si lo estoy utilizando e interpretando bien?
+
+** TODO Section 5. Third comment
+*** TODO SaTToSE
+In Section 5, I do not understand the claim "The most important tools
+(Namsor, Genderapi and Genderize) improve the values of accuracy",
+those tools improve their accuracy in relation to what? To their
+original results (from their paper)? Please make it explicit. And, if
+it is related to their previous study/analysis, what did you do that
+improved the results?
+*** TODO Comentarios
++ [ ] Supongo que me refiero al artículo de Lucía y Helena, valdría
+  con comprobarlo y dar la cita. Ellas hicieron unas mediciones de
+  accuracies dieron resultados similares, pero son algo parecidos de
+  alguna manera.
+
+** TODO Section 5. Fourth comment
+*** TODO SaTToSE
+Only in the Section 5, which is a section with results, the authors
+provide a quick explanation about their tool: "damegender is not
+guessing undefined because we predict with machine learning (using an
+SVC algorithm) if the string is not in the database.". As mentioned
+above, I strongly recommend the authors to re-structure the text so
+they first present their tool.
+
+** TODO Section 5. Fith comment
+*** TODO SaTToSE
+In Section 5, be careful when you say "It should be noted that
+Accuracy can be a misleading metric for imbalanced data sets,", as
+precision is also known to be problematic with imbalanced datasets =>
+[1] and [2]
+
+As for a way to improve the paper in the Machine Learning Section, I
+suggest the authors to take a look at automatic algorithm and
+parameter tuning. The problem is on choosing ML algorithms and its
+parameters manually is not a good choice [3]. Since there are several
+different kinds of algorithms, and even more parameters they have, it
+is impossible for a human to test all of them, and indeed it should
+not be. Thus, there are automatic ways of algorithm and parameter
+selection, which should be used in order to get the best options
+available and avoid bias. One example is Auto-Weka, it a tool which
+run several tests and provide the best algorithm and best parameters
+choice for the user. Thus, I recommend the authors to consider
+checking on those options for ML, as they need to justify the decision
+of the algorithms they tested.
+*** TODO Comentarios
++ [ ] Estoy bastante de acuerdo, el de MLP seguro que no está bien. El
+  resto se puede mirar un poco, pero no traían mucho donde tunear.
+
+** TODO Section 6
+*** TODO SaTToSE
+In Section 6, I do not understand this expectation: "So it makes sense
+to expect better results in random datasets if we add new languages
+and countries.". Why do the authors believe their model will perform
+better in random datasets?
+*** TODO Comentarios
+Me refiero a la herramienta en sí. Los modelos habría que
+reconstruirlos, repensar cómo hacerlo. Pero es muy difícil hacer
+buenas predicciones si no tenemos los ejemplos de entrenamiento de un
+país como Alemania con reglas en los nombres seguramente muy
+diferentes a las de los españoles o anglosajones. Puesto que el
+dataset de prueba era internacional, quizás hubiera nombres no
+latinos, ni anglosajones.
+
+* TODO Review 2 SaTToSE
+** TODO Comments
+*** The paper is well structured and it is nice to read.
+*** The comparison among tools and features is strong and well presented.
+*** TODO Given that this one is an artifact presentation, I miss some details about damegender per se. The evaluation is quite strong, but I miss an introduction of the tool and how it was designed.
+Podemos hablarlo esta parte desde la review 1, hice algunos comentarios de mejora.
+*** TODO Given that Gender Guesser seems to be the only non-commercial tool in the study, it would be nice if the authors discuss a bit more the differences between this tool and damegender. 
+La principal diferencia son los datasets, genderguesser trae completo
+los países donde puede haber nombres, damegender es al revés cada país
+tiene completos los nombres. Se podría revisar pero cuando se añade un
+país se utiliza la fuente oficial.
+
+Otra diferencia es que damos el total de nombres por país y una
+probabilidad.
+
+** Minor Comments
++ p.1 "However, there are some studies about Twitter or GitHub were
+  not only names to detect gender." -> Review the sentence
++ p.2 "(i) [..];" -> missing "and" at the end
++ p.2 "this tools" -> this tool
++ p.2 "(iii) [..]; and" -> remove the final "; and"
+
+* TODO Review 3 SaTToSE
+** TODO Software Evolution
+*** SaTToSE
+The connection to software evolution appears artificial to me. What would be
+gained by knowing the gender ratio in software projects? Moreover, developers
+often use user names that are not related to their true first names and so
+any comparison with a census data base is bound to fail. 
+*** Comentarios
+Supongo que habría que hablar más de la conexión con repositorios
+software. Gregorio pienso que la parte del abstract que tenía antes
+de la importancia de la variable sexo en la sociología permitiría que
+la gente comprenda un poco mejor la utilidad en evolución de software.
+
+
+** TODO Technical Contribution
+*** SaTToSE
+Looking up a given name in a data base of names and genders to retrieve the
+gender does not seem to be a big technical contribution. Geo-localisation is
+an interesting aspect at first glance, but at the end of the day isn't more
+than looking up the name in the right name-gender data base.
+*** Comentarios
+Aparte de la geolocalización desde el nombre que es una parte que no
+he abordado pero sí podría dejarlo abordado quizás para el
+evento. Está la predicción de género utilizando inteligencia
+artificial.
+
+** TODO Open Source
+*** SaTToSE 
+Various commercial services with high accuracy exist. Is an open source 
+re-implementation of a commercial service a research contribution?
+
+*** Comentarios
+Sí. Debido a que hay muchos papers de género en repositorios, Twitter,
+ciencia, ... Si utilizamos cajas negras la ciencia avanza ciega. La
+respuesta sería tener una licencia libre no es una contribución de
+investigación en "Advanced Techniques & Tools for Software
+Evolution", pero sí está permitiendo que la investigación sea
+verificable, por lo tanto, tiene sentido comentarlo porque se debería
+puntuar de una manera algo más positiva.
+
+** TODO Machine Learning
+*** SaTToSE
+The machine learning approaches, presented in Section 6, are interesting, 
+though very language-specific. Unfortunately, it remains unclear how and
+to what extent these techniques are part of damegender or maybe rather 
+directions of future work. 
+*** Comentarios
+
+
+** TODO GenderGuesser
+You mention GenderGuesser as the one other open-source software in the area,
+but the paper lacks any detaled technical comparison. This is weird as 
+GenderGuesser would be your obvious role model in designing damegender.
+What exactly do you do better or at least different?
+*** Comentarios
+Lo expliqué en otra revisión.
+
+** TODO Artitifact
+The paper pretends to be an artifact presentation, but at the end the reader
+does hardly learn anything about the artifact itself. How can I use it? How
+is it implemented, etc? At best the reader learns that it is implemented
+in Python because of the abundance of libraries, but that alone is rather
+a practicality than an interesting aspect. What libraries precisely do you
+use? 
+*** Comentarios
+Ningún probblema en explicar todo esto es cuestión de ponerse de
+acuerdo en el peso.
+
+** TODO Genderguesser
+You state (page 3) the final goal of your work to be a freely available dataset
+on top of GenderGuesser. What have you already achieved in that direction?
+The goal appears not to be in line with presenting damegender as an alternative
+to GenderGuesser. 
+*** Comentarios
+He logrado una buena colección de datasets y la comprensión de que es
+posible también descargar desde Wikidata si faltaran nombres de otros
+países.
