@@ -1,0 +1,200 @@
+Dear David,
+
+We are pleased to inform you that your submission
+      PAPER ID: 9
+      TITLE: [Artifact Presentation] Damegender: Writing and Comparing Gender Detection Tools
+
+was accepted for inclusion in the SATToSE 2020 program.
+
+Congratulations!
+
+Please, take the reviews into account to revise your paper and adapt your presentation at SATToSE 2020. The deadline for the camera ready version is June 15, 2020.
+
+As you are aware, SATToSE 2020 will be a virtual event. This means that there will be no registration fee. However, registration is *mandatory* to attend the event. You can find the link to the registration form on the SATToSE website (http://sattose.org/2020). At least one author of each paper must register and present the paper.
+
+More information about submitting your camera ready papers will be provided the upcoming days.
+
+Given the current situation with COVID-19, rescheduled events might overlap with SATToSE (SATToSE will take place on July 1-2). If you have to present at another event on the same days as SATToSE, I would like to ask you to notify me.
+
+Kind regards,
+Eleni Constantinou
+
+SUBMISSION: 9
+TITLE: [Artifact Presentation] Damegender: Writing and Comparing Gender Detection Tools
+
+
+----------------------- REVIEW 1 ---------------------
+SUBMISSION: 9
+TITLE: [Artifact Presentation] Damegender: Writing and Comparing Gender Detection Tools
+AUTHORS: David Arroyo Menéndez, Jesus M. Gonzalez-Barahona and Gregorio Robles
+
+----------- Overall evaluation -----------
+>> Summary:
+
+The authors provide an initial design of a tool, called damegender, which has the goal of guessing the gender of a person based on the name. The papers compares its results with existing tools, and it shows good results. The tool uses machine learning techniques and it is built based on existing datasets of name-gender entries.
+
+
+>> The paper strengths are:
+
++ The paper is well-written and easy to understand.
++ The paper address an important, actual, and relevant topic.
++ The initial results seems promising.
++ The authors make a good comparison with actual competitors, both industrial and open-source.
+
+>> The paper weakness are:
+
+- The structure of the paper is not clear (see major comments)
+- The tool itself is not well presented (see major comments)
+- The machine learning step could be improved (see major comments)
+
+
+==============================================
+
+>> Comments to authors:
+
+Major issues:
+c
+
+[1] (MENZIES, T.; GREENWALD, J.; FRANK, A. Data mining static code attributes to learn defect predictors. IEEE Trans. Softw. Eng., IEEE Press, Piscataway, NJ, USA, v. 33, n. 1, p. 2–13, Jan. 2007. ISSN 0098-5589)
+
+[2] (MENZIES, T.; DEKHTYAR, A.; DISTEFANO, J.; GREENWALD, J. Problems with precision: A response to “comments on ‘data mining static code attributes to learn defect predictors”’. IEEE Transactions on Software Engineering, v. 33, n. 9, p. 637–640, Sep. 2007. ISSN 0098-5589.)
+
+[3] (GHOTRA, B.; MCINTOSH, S.; HASSAN, A. E. Revisiting the impact of classification techniques on the performance of defect prediction models. In: Proceedings of the 37th International Conference on Software Engineering - Volume 1. Piscataway, NJ, USA: IEEE Press, 2015. (ICSE ’15), p. 789–800. ISBN 978-1-4799-1934-5.)
+
+
+Minor issues:
+
+0. Abstract:
+        - "more productive, more healthy software community." -> more productive and healthy software community.
+        - "advancement of" -> advancement on
+        - "diversity in the IT," -> I would suggest to present the term meaning (IT) before using it in the abstract
+
+1. Introduction:
+        - "participation in Twitter, in Wikipedia" ... "in StackOverflow" -> participation on Twitter, on Wikipedia ... on StackOverflow
+        - "Twitter or GitHub" -> Wouldn't it be Twitter and GitHub?
+        - "...were not only names to detect gender" -> This part is quite confusing, I recommend to review this whole sentence
+        - "In them" -> In those studies,
+        - "we discuss about their limitations" -> we discuss their limitations
+        - "As a result, we contribute with" -> I recommend to use a list environment (bullets) to present the contributions
+        - "this tools" -> this tool
+
+3. Datasets:
+        - "USA and United Kingdom" -> USA, and United Kingdom
+        - "United States of America" -> You first mention USA, and then after you keep using "United States of America". I would just use United States of America (USA) in the first mention, then only use USA.
+
+4. Feature comparison with other tools:
+        - "Application Programming Interfaces (APIs)" -> As you already presented this term, I would only use APIs
+        - "price is given in euro." -> Euro
+        - "On the other side," -> To use this expression you should first use "one the one side" before.
+
+5. Reproducing values of accuracy and confusion matrix:
+        - "the quality of service" -> the quality of the service
+        - "precision, recall)." - precision, and recall).
+        - "that appear." -> that can happen.
+        - "female or unknown." -> female, or unknown.
+        - "Damegender (SVC)4" (in Table 2) -> where does this footnote number 4 is? and what does svc mean?
+        - "on the other hand," -> as described above.
+        - "Genderapi and Genderize" -> Genderapi, and Genderize
+
+6. Machine Learning:
+        - "vocal" -> Do you mean vowel? What does vocal mean?
+        - "Australia and Spain." -> Australia, and Spain.
+        - "Principal Component Analysis" -> What is this? Please provide a description of it.
+
+
+
+----------------------- REVIEW 2 ---------------------
+SUBMISSION: 9
+TITLE: [Artifact Presentation] Damegender: Writing and Comparing Gender Detection Tools
+AUTHORS: David Arroyo Menéndez, Jesus M. Gonzalez-Barahona and Gregorio Robles
+
+----------- Overall evaluation -----------
+#Paper
+Damegender: Writing and Comparing Gender Detection Tools
+
+#Summary
+This paper presents damegender, a tool that aims at identifying the gender of participants based on their user names. The tool uses machine learning and its results are compared against other inference tools. The tool is developed to identify the participation of women in the software community.
+
+#Contributions
+The authors present: i) an evaluation of the quality of existing APIs for detecting the gender of participants based on their names; ii) the damegender tool, supporting gender identification for English and Spanish names; and iii) a machine learning solution to strings.
+
+#Comments
+- The paper is well structured and it is nice to read.
+- The comparison among tools and features is strong and well presented.
+- Given that this one is an artifact presentation, I miss some details about damegender per se. The evaluation is quite strong, but I miss an introduction of the tool and how it was designed.
+- Given that Gender Guesser seems to be the only non-commercial tool in the study, it would be nice if the authors discuss a bit more the differences between this tool and damegender.
+
+#Minor Comments
+- p.1 "However, there are some studies about Twitter or GitHub were not only names to detect gender." -> Review the sentence
+- p.2 "(i) [..];" -> missing "and" at the end
+- p.2 "this tools" -> this tool
+- p.2 "(iii) [..]; and" -> remove the final "; and"
+
+
+
+----------------------- REVIEW 3 ---------------------
+SUBMISSION: 9
+TITLE: [Artifact Presentation] Damegender: Writing and Comparing Gender Detection Tools
+AUTHORS: David Arroyo Menéndez, Jesus M. Gonzalez-Barahona and Gregorio Robles
+
+----------- Overall evaluation -----------
+Summary:
+
+The paper presents Damegender, an open source software tool that maps names to
+gender. The tool works with a large data base obtained from census data in two
+English-speaking countries (UK, US) and 2 Spanish-speaking countries (Spain,
+Uruguay).
+
+Strengths:
+
+Overview on the state of the art
+
+Weaknesses:
+
+The connection to software evolution appears artificial to me. What would be
+gained by knowing the gender ratio in software projects? Moreover, developers
+often use user names that are not related to their true first names and so
+any comparison with a census data base is bound to fail.
+
+Looking up a given name in a data base of names and genders to retrieve the
+gender does not seem to be a big technical contribution. Geo-localisation is
+an interesting aspect at first glance, but at the end of the day isn't more
+than looking up the name in the right name-gender data base.
+
+Various commercial services with high accuracy exist. Is an open source
+re-implementation of a commercial service a research contribution?
+
+The machine learning approaches, presented in Section 6, are interesting,
+though very language-specific. Unfortunately, it remains unclear how and
+to what extent these techniques are part of damegender or maybe rather
+directions of future work.
+
+You mention GenderGuesser as the one other open-source software in the area,
+but the paper lacks any detaled technical comparison. This is weird as
+GenderGuesser would be your obvious role model in designing damegender.
+What exactly do you do better or at least different?
+
+The paper pretends to be an artifact presentation, but at the end the reader
+does hardly learn anything about the artifact itself. How can I use it? How
+is it implemented, etc? At best the reader learns that it is implemented
+in Python because of the abundance of libraries, but that alone is rather
+a practicality than an interesting aspect. What libraries precisely do you
+use?
+
+You state (page 3) the final goal of your work to be a freely available dataset
+on top of GenderGuesser. What have you already achieved in that direction?
+The goal appears not to be in line with presenting damegender as an alternative
+to GenderGuesser.
+
+Minor issues:
+
+page 2: When you say that GenderGuesser lies technologically well behind other
+solutions, you neither give any evidence or explanation for this nor do you
+even say what the other solutions are, apart from implicitly damegender maybe.
+
+"allow to perform/analyze/..." -> "allow us to perform/analyze/..."
+
+Quite often the headline of a section does not exactly fit the section's contents.
+
+The confusion matrix (Table 3) is unclear to me.
+
