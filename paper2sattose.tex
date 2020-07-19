@@ -225,7 +225,7 @@ However, they limit the amount of free requests that can be performed and their 
 Genderapi & 0.969 & 0.972 & 0.964 & 1.0\tabularnewline
 Genderize & 0.927 & 0.976 & 0.966 & 1.0\tabularnewline
 Damegender (SVC)\footnote{SVC is the acronym of Support Vector Classification, the Machine Learning algorithm that Damegender was using with this results} & 0.879 & 0.972 & 0.972 & 1.0\tabularnewline
-Namsor & 0.867 & 0.973 & 0.924 & 1.0\tabularnewline
+Namsor (v1) & 0.867 & 0.973 & 0.924 & 1.0\tabularnewline
 Nameapi & 0.830 & 0.974 & 0.905 & 1.0\tabularnewline
 Gender Guesser & 0.774 & 0.985 & 0.872 & 1.0\tabularnewline
 \hline
@@ -270,11 +270,11 @@ Given, however, that its focus is mainly to be used in the IT domain, where the 
 %%\endhead
 Genderapi         & male    & 3589 & 155  &  67 \tabularnewline
                   & female  & 211  & 1734 &  23 \tabularnewline
-Damegender       & male    & 3663 & 147  &   0 \tabularnewline
-                & female  & 551  & 1497 &   0 \tabularnewline
+Damegender        & male    & 3663 & 147  &   0 \tabularnewline
+                  & female  & 551  & 1497 &   0 \tabularnewline
 Genderguesser     & male    & 3326 &  139 & 346 \tabularnewline
                   & female  & 78   & 1686 & 204 \tabularnewline
-Namsor            & male    & 3325 & 139  & 346 \tabularnewline
+Namsor (v1)       & male    & 3325 & 139  & 346 \tabularnewline
                   & female  & 78   & 1686 & 204 \tabularnewline
 Genderize         & male    & 3157 & 242  & 412 \tabularnewline
                   & female  & 75   & 1742 & 151 \tabularnewline
@@ -289,12 +289,12 @@ Nameapi           & male    & 2627 & 674  & 507 \tabularnewline
 
 We have performed a comparison using a confusion matrix for the software/tools under study (see Table~\ref{table:ConfusionMatrixTables}).
 These results are very similar to the ones reported in~\cite{10.7717/peerj-cs.156}, which offers confidence that we have done our comparison correctly.
-The most important tools (\texttt{Namsor}, \texttt{Genderapi}, and \texttt{Genderize}) improve the values of accuracy with respect to the previous comparison.
+The most important tools (\texttt{Namsor (v1)}, \texttt{Genderapi}, and \texttt{Genderize}) improve the values of accuracy with respect to the previous comparison.
 In particular, \texttt{Genderapi} improves the results for \emph{undefined}.
 For \texttt{Genderize}, we obtain exactly the same results. 
 For \texttt{Genderguesser}, however, we obtain different results, which is to some extent not expected, because the software has not been modified for several years.
 \texttt{Nameapi}'s results is changing from male to female with more errors. 
-In \texttt{Namsor}, the results are similar. 
+In \texttt{Namsor (v1)}, the results are similar. 
 \texttt{damegender} is not guessing undefined because we predict with machine learning (using an SVC algorithm) if the string is not in the database.
 
 \begin{table*}
@@ -309,7 +309,7 @@ Damegender (SVC)\footnotemark[1] & 0.121 & 0.121 & 0.0 & -0.07\tabularnewline
 GenderApi & 0.167 & 0.167 & 0.0 & -0.167\tabularnewline
 Gender Guesser & 0.225 & 0.027 & 0.204 & 0.003\tabularnewline
 Genderize & 0.276 & 0.261 & 0.0204 & -0.0084 \tabularnewline 
-Namsor & 0.332 & 0.262 & 0.095 & 0.01 \tabularnewline
+Namsor (v1) & 0.332 & 0.262 & 0.095 & 0.01 \tabularnewline
 Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 \hline
 \end{tabular}
@@ -319,13 +319,17 @@ Nameapi & 0.361 & 0.267 & 0.129 & 0.001 \tabularnewline
 \end{table*}
 
 
-In Table~\ref{table:ApisAndErrors} we can see the different measures for errors in the APIs.
-\emph{Error coded} defines if the true is different than the guessed one. 
-\emph{Error coded without na} defines if the true is different than the guessed one, but without undefined results.
-\emph{Error gender bias} allows to understand if the error is bigger for guessing males than females or viceversa.
-The \emph{weighted error} defines if the true value is different than the guessed one, but giving a weight to the guessed as undefined.
-The most relevant information is a high index of errors for \texttt{Nameapi} and \texttt{Namsor},
-while \texttt{GenderApi} and \texttt{damegender} have a low index of errors.
+In Table~\ref{table:ApisAndErrors} we can see the different measures
+for errors in the APIs.  \emph{Error coded} defines if the true is
+different than the guessed one.  \emph{Error coded without na} defines
+if the true is different than the guessed one, but without undefined
+results.  \emph{Error gender bias} allows to understand if the error
+is bigger for guessing males than females or viceversa.  The
+\emph{weighted error} defines if the true value is different than the
+guessed one, but giving a weight to the guessed as undefined.  The
+most relevant information is a high index of errors for
+\texttt{Nameapi} and \texttt{Namsor (v1)}, while \texttt{GenderApi}
+and \texttt{damegender} have a low index of errors.
 
 
 \section{Machine Learning}
